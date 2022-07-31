@@ -52,9 +52,10 @@ jobs:
 
     - run: |
         echo "Run, Build Application using script"
-        sudo apt-get update && sudo apt-get install -y libglew-dev
+        sudo apt-get update && sudo apt-get install -y libglew-dev freeglut3-dev
         dpkg -L libglew-dev
         find /usr/lib -type f -name 'libGLEW*'
+        dpkg -L freeglut3-dev
 
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
