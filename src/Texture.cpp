@@ -250,7 +250,7 @@ bool	Texture :: load1D ( const char * fileName )
 		int	mipmaps = image -> getNumLevels ();
 		int	w       = width;
 		int	h       = height;
-		byte * ptr  = image -> imageData ( 0,  0 );
+		std::byte * ptr  = image -> imageData ( 0,  0 );
 		
 		glTexParameteri  ( target, GL_TEXTURE_MAX_LEVEL, mipmaps - 1 );
 		
@@ -322,7 +322,7 @@ bool	Texture :: load2D ( const char * fileName )
 		int	mipmaps = image -> getNumLevels ();
 		int	w       = width;
 		int	h       = height;
-		byte * ptr  = image -> imageData ( 0,  0 );
+		std::byte * ptr  = image -> imageData ( 0,  0 );
 		
 		glTexParameteri  ( target, GL_TEXTURE_MAX_LEVEL, mipmaps - 1 );
 		
@@ -394,7 +394,7 @@ bool	Texture :: loadRectangle ( const char * fileName )
 		int	mipmaps = 1;						// no mipmaps for rect textures
 		int	w       = width;
 		int	h       = height;
-		byte * ptr  = image -> imageData ( 0,  0 );
+		std::byte * ptr  = image -> imageData ( 0,  0 );
 		
 //		glTexParameteri  ( target, GL_TEXTURE_MAX_LEVEL, mipmaps - 1 );
 		
@@ -463,7 +463,7 @@ bool	Texture :: load3D ( const char * fileName )
 		int	w       = width;
 		int	h       = height;
 		int	d       = depth;
-		byte * ptr  = image -> imageData ( 0,  0 );
+		std::byte * ptr  = image -> imageData ( 0,  0 );
 		
 //		glTexParameteri  ( target, GL_TEXTURE_MAX_LEVEL, mipmaps - 1 );
 		
@@ -544,7 +544,7 @@ bool	Texture :: loadCubemap ( const char * fileName )
 		{		
 			int	w       = width;
 			int	h       = height;
-			byte * ptr  = image -> imageData ( i,  0 );
+			std::byte * ptr  = image -> imageData ( i,  0 );
 			
 			for ( int j = 0; j < mipmaps; j++ )
 			{
@@ -655,7 +655,7 @@ bool	Texture :: loadCubemap ( const char * f1, const char * f2, const char * f3,
 		{		
 			int	w       = width;
 			int	h       = height;
-			byte * ptr  = image [i] -> imageData ( i, 0 );
+			std::byte * ptr  = image [i] -> imageData ( i, 0 );
 			
 			for ( int j = 0; j < mipmaps; j++ )
 			{
@@ -792,7 +792,7 @@ bool	Texture :: saveAsTga ( const char * fileName )
 	if ( getFormat ().getFormat () == GL_RGB || getFormat ().getFormat () == GL_BGR )
 		numComponents = 3;
 		
-	byte  * buffer = (byte *) calloc ( numPixels * numComponents, 1 );
+	std::byte  * buffer = (std::byte *) calloc ( numPixels * numComponents, 1 );
 	
 	if ( buffer == NULL )
 		return NULL;

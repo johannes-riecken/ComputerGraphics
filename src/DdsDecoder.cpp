@@ -210,7 +210,7 @@ void flipBlocksDxtc5 ( GLubyte * ptr, unsigned int numBlocks )
     }
 }
 
-void flipDdsSurface ( byte * surf, int width, int height, int depth, bool compressed, int format, int elementSize )
+void flipDdsSurface ( std::byte * surf, int width, int height, int depth, bool compressed, int format, int elementSize )
 {
 	if ( !doDdsFlip )
 		return;
@@ -221,7 +221,7 @@ void flipDdsSurface ( byte * surf, int width, int height, int depth, bool compre
 	{
         unsigned	lineSize  = elementSize * width;
         unsigned	sliceSize = lineSize * height;
-        byte      * tempBuf   = new byte [lineSize];
+        std::byte      * tempBuf   = new std::byte [lineSize];
 
         for ( int ii = 0; ii < depth; ii++ )
 		{
@@ -276,9 +276,9 @@ void flipDdsSurface ( byte * surf, int width, int height, int depth, bool compre
         }
 
         size_t	 lineSize = width * blockSize;
-        byte   * tempBuf  = new byte [lineSize];
-        byte   * top      = surf;
-        byte   * bottom   = surf + (height - 1) * lineSize;
+        std::byte   * tempBuf  = new std::byte [lineSize];
+        std::byte   * top      = surf;
+        std::byte   * bottom   = surf + (height - 1) * lineSize;
 
         for ( size_t j = 0; j < max( (size_t)height >> 1, (size_t)1); j++ )
         {
@@ -626,14 +626,14 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
         bytesPerLine += 4 - (bytesPerLine & 3);
 
 	TexImage * image = TexImage :: new3D ( width, height, depth, numComponents ); 
-    byte     * buf   = new byte [bytesPerLine];
-    byte     * dest  = image -> imageData ();
+    std::byte     * buf   = new std::byte [bytesPerLine];
+    std::byte     * dest  = image -> imageData ();
 
     for ( int i = 0; i < rowsCount; i++ )
     {
         data -> getBytes ( buf, bytesPerLine );
                                                         // rearrange components
-        byte * src  = buf;
+        std::byte * src  = buf;
 
         for ( register int j = 0; j < (int)ddsd.dwWidth; j++ )
         {
@@ -654,7 +654,7 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
 	return image;
 }
 
-bool	DdsDecoder :: loadUncompressed ( Data * data, const DDS_HEADER& ddsd, int numComponents, byte * image )
+bool	DdsDecoder :: loadUncompressed ( Data * data, const DDS_HEADER& ddsd, int numComponents, std::byte * image )
 {
 	int	w            = (int)ddsd.dwWidth;
 	int	h            = (int)ddsd.dwHeight;
@@ -664,15 +664,15 @@ bool	DdsDecoder :: loadUncompressed ( Data * data, const DDS_HEADER& ddsd, int n
     if ( (bytesPerLine & 3) != 0 )                  // do dword alignment
     	bytesPerLine += 4 - (bytesPerLine & 3);
 
-    byte    * buf     = new byte [bytesPerLine];
+    std::byte    * buf     = new std::byte [bytesPerLine];
 	
     for ( i = 0; i < h; i++ )
     {
     	data -> getBytes ( buf, bytesPerLine );
 
                                                         // rearrange components
-        byte * dest = image + i * w * numComponents;
-        byte * src  = buf;
+        std::byte * dest = image + i * w * numComponents;
+        std::byte * src  = buf;
 
         for ( register int j = 0; j < w; j++ )
         {
@@ -713,11 +713,11 @@ TexImage * DdsDecoder :: loadUncompressed8BitRGB ( Data * data, const DDS_HEADER
 	return image;
 }
 
-bool	DdsDecoder :: loadUncompressed8BitRGBData ( Data * data, const DDS_HEADER& ddsd, int component, int bytesPerLine, byte * ptr )
+bool	DdsDecoder :: loadUncompressed8BitRGBData ( Data * data, const DDS_HEADER& ddsd, int component, int bytesPerLine, std::byte * ptr )
 {
  	int	   w   = (int)ddsd.dwWidth;
 	int	   h   = (int)ddsd.dwHeight;
-	byte * buf = new byte [bytesPerLine];
+	std::byte * buf = new std::byte [bytesPerLine];
 	int	   i;
 
     if ( (ddsd.dwFlags & DDS_DEPTH) != 0 )              // 3D texture
@@ -728,8 +728,8 @@ bool	DdsDecoder :: loadUncompressed8BitRGBData ( Data * data, const DDS_HEADER& 
     	data -> getBytes ( buf, bytesPerLine );
 
                                                         // rearrange components
-        byte * dest = ptr + i * w * 3;
-        byte * src  = buf;
+        std::byte * dest = ptr + i * w * 3;
+        std::byte * src  = buf;
 
         for ( register int j = 0; j < w; j++ )
         {
@@ -783,11 +783,11 @@ TexImage * DdsDecoder :: loadUncompressed16BitRGB ( Data * data, const DDS_HEADE
 	return image;
 }
 
-bool	DdsDecoder :: loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, byte * ptr )
+bool	DdsDecoder :: loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, std::byte * ptr )
 {
 	int	   w   = (int)ddsd.dwWidth;
 	int	   h   = (int)ddsd.dwHeight;
-    byte * buf = new byte [bytesPerLine];
+    std::byte * buf = new std::byte [bytesPerLine];
 	int	   i;
 
     if ( (ddsd.dwFlags & DDS_DEPTH) != 0 )              // 3D texture
@@ -798,8 +798,8 @@ bool	DdsDecoder :: loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER
     	data -> getBytes ( buf, bytesPerLine );
 
                                                         // rearrange components
-        byte * dest = ptr + i * w ;
-        byte * src  = buf;
+        std::byte * dest = ptr + i * w ;
+        std::byte * src  = buf;
 
         for ( register int j = 0; j < w; j++ )
         {
@@ -818,7 +818,7 @@ bool	DdsDecoder :: loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER
     return true;
 }
 
-bool	DdsDecoder :: loadUncompressed16BitRGBData ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, byte * ptr )
+bool	DdsDecoder :: loadUncompressed16BitRGBData ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, std::byte * ptr )
 {
 	int		w     = (int)ddsd.dwWidth;
 	int		h     = (int)ddsd.dwHeight;
@@ -838,7 +838,7 @@ bool	DdsDecoder :: loadUncompressed16BitRGBData ( Data * data, const DDS_HEADER&
     	data -> getBytes ( buf, bytesPerLine );
 
                                                         // rearrange components
-        byte * dest = ptr + i * w * 3;
+        std::byte * dest = ptr + i * w * 3;
         word * src  = buf;
 
         for ( register int j = 0; j < w; j++ )

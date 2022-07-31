@@ -45,10 +45,10 @@ struct  BmpInfoHeader
 
 struct  RGBQuad
 {
-	byte	blue;
-	byte	green;
-	byte	red;
-	byte	reserved;
+	std::byte	blue;
+	std::byte	green;
+	std::byte	red;
+	std::byte	reserved;
 };
 
 #pragma	pack (pop)

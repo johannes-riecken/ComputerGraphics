@@ -23,7 +23,7 @@ protected:
     int     bytesPerChannel;
     int     format;		// GL internal format
     int     type;		// data type used for components
-    byte  * data;
+    std::byte  * data;
     int     numLevels;		// number of mipmaps
     int     blockSize;		// for block-compressed images
     int     imageSize;		// total size of one image (including mipmaps)
@@ -93,7 +93,7 @@ public:
 	}
 	
 
-    byte  * imageData     ( int image = 0, int level = 0 ) const;
+    std::byte  * imageData     ( int image = 0, int level = 0 ) const;
 	size_t	imageDataSize ( int image = 0, int level = 0 ) const;
 	GLenum	getGlType     () const;
 	

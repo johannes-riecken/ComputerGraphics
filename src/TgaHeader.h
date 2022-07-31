@@ -12,18 +12,18 @@
                                         // TGA specific constants and structs
 struct  TgaHeader
 {
-    byte    idLength;
-    byte    colormapType;
-    byte    imageType;
+    std::byte    idLength;
+    std::byte    colormapType;
+    std::byte    imageType;
     uint16  colormapIndex;
     uint16  colormapLength;
-    byte    colormapEntrySize;
+    std::byte    colormapEntrySize;
     uint16  xOrigin;
     uint16  yOrigin;
     uint16  width;
     uint16  height;
-    byte    pixelSize;
-    byte    imageDesc;
+    std::byte    pixelSize;
+    std::byte    imageDesc;
 };
 
 #pragma pack (pop)

@@ -39,7 +39,7 @@ bool	UbAccessor :: create ( const Program& p, const char * blockName )
 	blockIndex  = p.indexForUniformBlock ( blockName );
 	blockSize   = p.uniformBlockSize ( blockIndex );
 	numUniforms = p.uniformBlockActiveUniforms ( blockIndex );
-	ptr         = (byte *) calloc ( blockSize, 1 );
+	ptr         = (std::byte *) calloc ( blockSize, 1 );
 	
 	if ( !isOk () )
 		return false;
