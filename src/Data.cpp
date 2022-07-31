@@ -25,7 +25,7 @@
 
 Data :: Data ( void * ptr, int len )
 {
-	bits   = (std::byte *) ptr;
+	bits   = (unsigned char *) ptr;
 	length = len;
 	pos    = 0;
 }
@@ -72,7 +72,7 @@ Data :: Data ( const string& fileName )
 		return;
 	}
 
-	bits = (std::byte *) malloc ( len );
+	bits = (unsigned char *) malloc ( len );
 
 	if ( bits == NULL )
 	{

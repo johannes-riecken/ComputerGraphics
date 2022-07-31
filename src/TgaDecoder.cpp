@@ -35,7 +35,7 @@ TexImage * TgaDecoder :: load ( Data * data )
     if ( hdr -> idLength != 0 )
         offs += hdr -> idLength;
 
-    std::byte  * bits = offs + (std::byte *) data -> getPtr ();
+    unsigned char  * bits = offs + (unsigned char *) data -> getPtr ();
 
     data -> seekAbs ( offs );
 
@@ -46,7 +46,7 @@ TexImage * TgaDecoder :: load ( Data * data )
     {
         if ( hdr -> colormapEntrySize == 15 || hdr -> colormapEntrySize == 16 )
         {
-            std::byte  * ptr = (std::byte *) bits;
+            unsigned char  * ptr = (unsigned char *) bits;
             int     a, b;
 
             for ( int i = 0; i < hdr -> colormapLength; i++ )
@@ -64,7 +64,7 @@ TexImage * TgaDecoder :: load ( Data * data )
         else
         if ( hdr -> colormapEntrySize == 24 )
         {
-            std::byte * pal = bits;
+            unsigned char * pal = bits;
 
             for ( int i = 0; i < hdr -> colormapLength; i++, pal += 3 )
                 palette [i] = makeRgba ( pal [2], pal [1], pal [0] );

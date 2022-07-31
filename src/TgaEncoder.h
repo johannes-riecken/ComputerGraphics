@@ -15,7 +15,7 @@ class	TgaEncoder
 public:
 	TgaEncoder () {}
 
-	bool	encode ( std::byte * image, int w, int h, int numComponents, const char * fileName ) const;
+	bool	encode ( unsigned char * image, int w, int h, int numComponents, const char * fileName ) const;
 };
 
 #endif

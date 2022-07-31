@@ -22,13 +22,13 @@
 #include    "TgaEncoder.h"
 #include    "TgaHeader.h"
 
-bool	TgaEncoder :: encode ( std::byte * image, int width, int height, int numComponents, const char * fileName ) const
+bool	TgaEncoder :: encode ( unsigned char * image, int width, int height, int numComponents, const char * fileName ) const
 {
     TgaHeader   hdr;
 	int			file  = open ( fileName, O_WRONLY | O_BINARY | O_CREAT | O_TRUNC, S_IWRITE );
 	int			numPixels = width * height;
-    std::byte      * pixel = image;
-    std::byte    	temp;
+    unsigned char      * pixel = image;
+    unsigned char    	temp;
 
 	if ( file == -1 )
 		return false;

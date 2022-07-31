@@ -87,7 +87,7 @@ bool	BmpDecoder :: loadMono ( Data * data, TexImage * tex, dword * buf, dword pa
 {
 	int	   width  = tex -> getWidth  ();
 	int	   height = tex -> getHeight ();
-	std::byte * ptr    = new std::byte [width];				// sure it's enough
+	unsigned char * ptr    = new unsigned char [width];				// sure it's enough
 
 	int		bytesPerLine = (width + 7) / 8;
 	int		delta        = bytesPerLine & 3;		// do DWORD alignment

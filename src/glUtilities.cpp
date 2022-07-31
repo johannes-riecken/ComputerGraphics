@@ -94,7 +94,7 @@ void checkGlError ( const char * title )
 
 bool	saveScreenAsTga ( const char * fileName, int width, int height )
 {
-    std::byte * ptr = (std::byte *) malloc ( 3 * width * height );
+    unsigned char * ptr = (unsigned char *) malloc ( 3 * width * height );
 
     if ( ptr == NULL )
         return false;

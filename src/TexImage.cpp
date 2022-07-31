@@ -42,7 +42,7 @@ TexImage * TexImage :: new2D ( int w, int h, int components, int compType )
 	image -> blockSize     = 1;
 	image -> numComponents = components;
 	image -> imageSize     = image -> width * image -> height * image -> numComponents * typeSize ( image -> type );
-	image -> data          = (std::byte *) calloc ( image -> imageSize, 1 );
+	image -> data          = (unsigned char *) calloc ( image -> imageSize, 1 );
 	image -> imageType     = image2D;
 	
 	image -> setFormatFromNumCompType ();
@@ -81,7 +81,7 @@ TexImage * TexImage :: new2DCompressed ( int w, int h, int format, int numLevels
 	image -> type       = typeByte;
 	image -> compressed = true;
 	image -> numLevels  = numLevels;
-	image -> data       = (std::byte *) calloc ( image -> imageSize, 1 );
+	image -> data       = (unsigned char *) calloc ( image -> imageSize, 1 );
 	image -> imageType  = image2D;
 	
 	return image;
@@ -97,7 +97,7 @@ TexImage * TexImage :: newCubemap ( int w, int components, int compType )
 	image -> blockSize     = 1;
 	image -> numComponents = components;
 	image -> imageSize     = image -> width * image -> height * image -> numComponents * typeSize ( image -> type );
-	image -> data          = (std::byte *) calloc ( image -> imageSize, 6 );
+	image -> data          = (unsigned char *) calloc ( image -> imageSize, 6 );
 	image -> numImages     = 6;
 	image -> imageType     = imageCubemap;
 	image -> cubemap       = true;
@@ -140,7 +140,7 @@ TexImage * TexImage :: newCubemapCompressed ( int w, int format, int numLevels, 
 	image -> compressed = true;
 	image -> numLevels  = numLevels;
 	image -> numImages  = 6;
-	image -> data       = (std::byte *) calloc ( image -> imageSize, 6 );
+	image -> data       = (unsigned char *) calloc ( image -> imageSize, 6 );
 	image -> imageType  = imageCubemap;
 	image -> cubemap    = true;
 	image -> compressed = true;
@@ -157,7 +157,7 @@ TexImage * TexImage :: new3D ( int w, int h, int d, int components, int compType
 	image -> blockSize     = 1;
 	image -> numComponents = components;
 	image -> imageSize     = image -> width * image -> height * image -> depth * image -> numComponents * typeSize ( image -> type );
-	image -> data          = (std::byte *) calloc ( image -> imageSize, 1 );
+	image -> data          = (unsigned char *) calloc ( image -> imageSize, 1 );
 	image -> imageType     = image3D;
 	
 	image -> setFormatFromNumCompType ();
@@ -171,14 +171,14 @@ void    TexImage :: putLine ( int y, dword * bits )
         return;
 
     int    offs = y * width * numComponents * typeSize ( type );
-    std::byte * ptr  = data + offs;
+    unsigned char * ptr  = data + offs;
 
     if ( numComponents == 4 )               // RGBA image
         memcpy ( ptr, bits, 4 * width );
     else
     if ( numComponents == 3 )               // RGB image
     {
-        std::byte * src = (std::byte *) bits;
+        unsigned char * src = (unsigned char *) bits;
 
         for ( int i = 0; i < width; i++, src += 4 )
         {
@@ -191,7 +191,7 @@ void    TexImage :: putLine ( int y, dword * bits )
     if ( numComponents == 1 )               // greyscale image
     {
         for ( int i = 0; i < width ; i++, bits++ )
-            *ptr++ = *(std::byte *) bits;
+            *ptr++ = *(unsigned char *) bits;
     }
 }
 
@@ -327,7 +327,7 @@ GLenum	TexImage :: getGlType () const
 	return GL_NONE;
 }
 
-std::byte  * TexImage :: imageData ( int image, int level ) const
+unsigned char  * TexImage :: imageData ( int image, int level ) const
 {
 	if ( image < 0 || image >= numImages || level < 0 || level >= numLevels )
 		return NULL;

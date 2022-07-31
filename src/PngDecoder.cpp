@@ -32,7 +32,7 @@ inline	dword	rgbaToInt ( dword red, dword green, dword blue, dword alpha )
 
 struct	PngImageRawData
 {
-	std::byte  * data;
+	unsigned char  * data;
 	size_t	size;
 };
 
@@ -56,7 +56,7 @@ static	void	pngImageRead ( png_structp pngPtr, png_bytep data, png_size_t size )
 TexImage * PngDecoder :: load ( Data * data )
 {
 								// check signature
-	if ( !png_check_sig ( (std::byte *)data -> getPtr (), data -> getLength () ) )
+	if ( !png_check_sig ( (unsigned char *)data -> getPtr (), data -> getLength () ) )
         return NULL;
 
 	png_structp	pngPtr = png_create_read_struct ( PNG_LIBPNG_VER_STRING, NULL, NULL, NULL );
@@ -84,7 +84,7 @@ TexImage * PngDecoder :: load ( Data * data )
 
 	PngImageRawData	raw;
 
-	raw.data = (std::byte *) data -> getPtr ();
+	raw.data = (unsigned char *) data -> getPtr ();
 	raw.size = data -> getLength ();
 
 	png_set_read_fn ( pngPtr, &raw, pngImageRead );
@@ -162,15 +162,15 @@ TexImage * PngDecoder :: load ( Data * data )
 			for ( i = 0; i < numColors; i++)
 				pngPal [i].red   =
 				pngPal [i].green =
-				pngPal [i].blue  = (std::byte)((i * 255) / numEntries);
+				pngPal [i].blue  = (unsigned char)((i * 255) / numEntries);
 		}
 		else
 		{
 			for ( i = 0; i < numColors; i++ )
 			{
-				pngPal [i].red   = (std::byte)((pngPal [i].red   * 255) / numEntries);
-				pngPal [i].green = (std::byte)((pngPal [i].green * 255) / numEntries);
-				pngPal [i].blue  = (std::byte)((pngPal [i].blue  * 255) / numEntries);
+				pngPal [i].red   = (unsigned char)((pngPal [i].red   * 255) / numEntries);
+				pngPal [i].green = (unsigned char)((pngPal [i].green * 255) / numEntries);
+				pngPal [i].blue  = (unsigned char)((pngPal [i].blue  * 255) / numEntries);
 			}
 		}
 	}

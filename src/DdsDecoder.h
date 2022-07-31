@@ -23,11 +23,11 @@ protected:
 	TexImage * loadCubemap ( Data * data, const DDS_HEADER& ddsd );
 	TexImage * load3D      ( Data * data, const DDS_HEADER& ddsd );
 	
-	bool	loadUncompressed8BitRGBData   ( Data * data, const DDS_HEADER& ddsd, int component, int bytesPerLine, std::byte * ptr );
-	bool	loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, std::byte * ptr );
-	bool	loadUncompressed16BitRGBData  ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, std::byte * ptr );
+	bool	loadUncompressed8BitRGBData   ( Data * data, const DDS_HEADER& ddsd, int component, int bytesPerLine, unsigned char * ptr );
+	bool	loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, unsigned char * ptr );
+	bool	loadUncompressed16BitRGBData  ( Data * data, const DDS_HEADER& ddsd, int bytesPerLine, unsigned char * ptr );
 	
-	bool 	loadUncompressed          ( Data * data, const DDS_HEADER& ddsd, int numComponents, std::byte * image );
+	bool 	loadUncompressed          ( Data * data, const DDS_HEADER& ddsd, int numComponents, unsigned char * image );
 	TexImage * loadUncompressed8BitRGB   ( Data * data, const DDS_HEADER& ddsd, int component );
 	TexImage * loadUncompressed8BitAlpha ( Data * data, const DDS_HEADER& ddsd );
 	TexImage * loadUncompressed16BitRGB  ( Data * data, const DDS_HEADER& ddsd );

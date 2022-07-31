@@ -30,7 +30,7 @@ class	UbAccessor
 	GLuint			blockIndex;
 	int				numUniforms;				// number of active uniforms
 	int				blockSize;
-	std::byte          * ptr;						// pre-allocated buffer to hold the data to copy
+	unsigned char          * ptr;						// pre-allocated buffer to hold the data to copy
 	
 	struct VarInfo								// info about a uniform
 	{

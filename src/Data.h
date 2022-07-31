@@ -20,7 +20,7 @@ using namespace std;
 
 class	Data
 {
-	std::byte  * bits;
+	unsigned char  * bits;
 	int		length;
 	int		pos;
 	string	file;						// when data loaded from file, contains it's name
