@@ -4,6 +4,7 @@
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
 
+#include <cstring>
 #include    <stdlib.h>
 
 extern "C"
@@ -38,7 +39,7 @@ struct	PngImageRawData
 
 static	void	pngImageRead ( png_structp pngPtr, png_bytep data, png_size_t size )
 {
-	PngImageRawData * self = (PngImageRawData *) pngPtr -> io_ptr;
+	PngImageRawData * self = (PngImageRawData *) png_get_io_ptr(pngPtr);
 
 	if ( self -> size < size )
 		png_error ( pngPtr, "Read error" );

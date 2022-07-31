@@ -42,7 +42,7 @@ struct DXT3AlphaBlock
 struct DXT5AlphaBlock
 {
     GLubyte alpha0;
-    GLubyte alpha1;   
+    GLubyte alpha1;
     GLubyte row [6];
 };
 
@@ -52,13 +52,13 @@ static	void	getMask ( dword mask, BitMask& maskData )
 	{
 		maskData.start  = 0;
 		maskData.length = 0;
-		
+
 		return;
 	}
-	
+
 	for ( maskData.start = 0; (mask & 1) == 0; maskData.start++ )
 		mask >>= 1;
-		
+
 	for ( maskData.length = 0; mask & 1; maskData.length++ )
 		mask >>= 1;
 }
@@ -68,10 +68,10 @@ static	void	getMask ( dword mask, BitMask& maskData )
 //
 void flipDxt5Alpha ( DXT5AlphaBlock * block )
 {
-    GLubyte 	  gBits [4][4];  
+    GLubyte 	  gBits [4][4];
     unsigned long mask = 0x00000007;          // bits = 00 00 01 11
     unsigned long bits = 0;
-	
+
     memcpy ( &bits, &block->row [0], sizeof(unsigned char) * 3 );
 
     gBits[0][0] = (GLubyte)(bits & mask);
@@ -91,7 +91,7 @@ void flipDxt5Alpha ( DXT5AlphaBlock * block )
     gBits[1][3] = (GLubyte)(bits & mask);
 
     bits = 0;
-	
+
     memcpy ( &bits, &block->row [3], sizeof(GLubyte) * 3 );
 
     gBits[2][0] = (GLubyte)(bits & mask);
@@ -143,7 +143,7 @@ void flipBlocksDxtc1 ( GLubyte * ptr, unsigned int numBlocks )
     DXTColBlock * curblock = (DXTColBlock *)ptr;
     GLubyte       temp;
 
-    for ( unsigned int i = 0; i < numBlocks; i++) 
+    for ( unsigned int i = 0; i < numBlocks; i++)
 	{
         temp                = curblock -> row [0];
         curblock -> row [0] = curblock -> row [3];
@@ -190,11 +190,11 @@ void flipBlocksDxtc5 ( GLubyte * ptr, unsigned int numBlocks )
     DXTColBlock    * curblock = (DXTColBlock *)ptr;
     DXT5AlphaBlock * alphablock;
     GLubyte          temp;
-    
+
     for ( unsigned int i = 0; i < numBlocks; i++ )
     {
         alphablock = (DXT5AlphaBlock *)curblock;
-        
+
         flipDxt5Alpha ( alphablock );
 
         curblock++;
@@ -214,10 +214,10 @@ void flipDdsSurface ( unsigned char * surf, int width, int height, int depth, bo
 {
 	if ( !doDdsFlip )
 		return;
-		
+
     depth = depth ? depth : 1;
 
-    if ( !compressed ) 
+    if ( !compressed )
 	{
         unsigned	lineSize  = elementSize * width;
         unsigned	sliceSize = lineSize * height;
@@ -227,7 +227,7 @@ void flipDdsSurface ( unsigned char * surf, int width, int height, int depth, bo
 		{
             GLubyte * top    = surf + ii * sliceSize;
             GLubyte * bottom = top + (sliceSize - lineSize);
-    
+
             for ( int jj = 0; jj < (height >> 1); jj++ )
 			{
                 memcpy ( tempBuf, top,     lineSize );
@@ -245,30 +245,30 @@ void flipDdsSurface ( unsigned char * surf, int width, int height, int depth, bo
     {
         void		(*flipBlocks)(GLubyte*, unsigned int);
         unsigned	blockSize = 0;
-		
+
         width  = (width + 3) / 4;
         height = (height + 3) / 4;
 
         switch ( format )
         {
-            case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT: 
+            case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
                 blockSize  = 8;
-                flipBlocks = &flipBlocksDxtc1; 
+                flipBlocks = &flipBlocksDxtc1;
                 break;
-				
-            case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT: 
+
+            case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
                 blockSize  = 16;
-                flipBlocks = &flipBlocksDxtc3; 
+                flipBlocks = &flipBlocksDxtc3;
                 break;
-				
-            case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT: 
+
+            case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
                 blockSize  = 16;
-                flipBlocks = &flipBlocksDxtc5; 
+                flipBlocks = &flipBlocksDxtc5;
                 break;
-				
+
 			case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
                 blockSize  = 8;
-                flipBlocks = &flipBlocksDxtc1; 
+                flipBlocks = &flipBlocksDxtc1;
                 break;
 
             default:
@@ -297,10 +297,10 @@ void flipDdsSurface ( unsigned char * surf, int width, int height, int depth, bo
             top    += lineSize;
             bottom -= lineSize;
         }
-		
+
         delete [] tempBuf;
     }
-}    
+}
 
 TexImage * DdsDecoder :: load ( Data * data )
 {
@@ -326,7 +326,7 @@ TexImage * DdsDecoder :: load ( Data * data )
 	else
     if ( (ddsd.dwFlags & DDS_DEPTH) != 0 )
 		return load3D ( data, ddsd );
-		
+
 										// normal 2D texture
     int numComponents = 3;
 
@@ -339,7 +339,7 @@ TexImage * DdsDecoder :: load ( Data * data )
 	if ( ddsd.ddspf.dwRGBBitCount == 8 )				// 8 -bit
 	{
 		numComponents = 1;
-		
+
 		if ( ddsd.ddspf.dwRBitMask == 255 )
 			return loadUncompressed8BitRGB ( data, ddsd, 0 );
 		else
@@ -355,11 +355,11 @@ TexImage * DdsDecoder :: load ( Data * data )
 	else
 	if ( ddsd.ddspf.dwRGBBitCount == 16 )
 		return loadUncompressed16BitRGB ( data, ddsd );
-	
+
     if ( (ddsd.ddspf.dwFlags & DDS_FOURCC) == 0 )       // not compressed
 	{
-		TexImage * image = TexImage :: new2D ( ddsd.dwWidth, ddsd.dwHeight, numComponents ); 
-		
+		TexImage * image = TexImage :: new2D ( ddsd.dwWidth, ddsd.dwHeight, numComponents );
+
     	loadUncompressed ( data, ddsd, numComponents, image -> imageData () );
 
 		if ( numComponents == 3 )
@@ -438,13 +438,13 @@ TexImage * DdsDecoder :: load ( Data * data )
     data -> getBytes ( image -> imageData (), bufferSize );
 
 	flipDdsSurface ( image -> imageData (), ddsd.dwWidth, ddsd.dwHeight, 1, true, format /*ddsd.ddspf.dwFourCC*/, bytesPerElement );
-	
+
     return image;
 }
 
 TexImage * DdsDecoder :: loadCubemap ( Data * data, const DDS_HEADER& ddsd )
 {
-	static int	sides [6] = 
+	static int	sides [6] =
 	{
 		DDS_CUBEMAP_POSITIVEX, DDS_CUBEMAP_NEGATIVEX,
 		DDS_CUBEMAP_POSITIVEY, DDS_CUBEMAP_NEGATIVEY,
@@ -477,8 +477,8 @@ TexImage * DdsDecoder :: loadCubemap ( Data * data, const DDS_HEADER& ddsd )
 
     if ( (ddsd.ddspf.dwFlags & DDS_FOURCC) == 0 )       // not compressed
     {
-		TexImage * image = TexImage :: newCubemap ( ddsd.dwWidth, ddsd.dwHeight, numComponents ); 
-	
+		TexImage * image = TexImage :: newCubemap ( ddsd.dwWidth, ddsd.dwHeight, numComponents );
+
     	for ( i = 0; i < 6; i++ )
     		if ( ddsd.dwCaps2 & sides [i] )
 		    	loadUncompressed ( data, ddsd, numComponents, image -> imageData ( i ) );
@@ -523,7 +523,7 @@ TexImage * DdsDecoder :: loadCubemap ( Data * data, const DDS_HEADER& ddsd )
             break;
 
         default:
-            return false;
+            return NULL;
     }
 
     if( ddsd.dwPitchOrLinearSize != 0 )
@@ -551,7 +551,7 @@ TexImage * DdsDecoder :: loadCubemap ( Data * data, const DDS_HEADER& ddsd )
 	}
 
 	TexImage * image = TexImage :: newCubemapCompressed ( (int)ddsd.dwWidth, format, mipMapsCount, bufferSize );
-	
+
 	for ( i = 0; i < 6; i++ )
 		if ( ddsd.dwCaps2 & sides [i] )
 	    	data -> getBytes ( image -> imageData ( i ), bufferSize );
@@ -560,7 +560,7 @@ TexImage * DdsDecoder :: loadCubemap ( Data * data, const DDS_HEADER& ddsd )
 }
 
 TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
-{	
+{
     if ( (ddsd.ddspf.dwFlags & DDS_FOURCC) != 0 )       // we do not handle compressed 3D files
         return NULL;
 
@@ -570,7 +570,7 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
     int	depth         = ddsd.dwDepth;
     int	rowsCount     = depth * height;
 	int	numComponents = 3;
-	
+
     if ( ddsd.ddspf.dwFlags & DDS_ALPHA_PIXELS )        // ARGB
         numComponents = 4;
     else                                                // RGB
@@ -583,14 +583,14 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
 			numComponents = 1;
 		else
 			numComponents = 3;
-	
+
 		bytesPerLine = ddsd.dwWidth * 3;
 
 		if ( (bytesPerLine & 3) != 0 )                      // do dword alignment
 			bytesPerLine += 4 - (bytesPerLine & 3);
 
-		TexImage * image = TexImage :: new3D ( width, height, depth, numComponents ); 
-	
+		TexImage * image = TexImage :: new3D ( width, height, depth, numComponents );
+
 		if ( ddsd.ddspf.dwABitMask == 255 )
 			loadUncompressed8BitAlphaData ( data, ddsd, bytesPerLine, image -> imageData () );
 		else
@@ -602,7 +602,7 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
 		else
 		if ( ddsd.ddspf.dwBBitMask == 255 )
 			loadUncompressed8BitRGBData ( data, ddsd, 2, bytesPerLine, image -> imageData () );
-			
+
 		return image;
 	}
 	else
@@ -613,10 +613,10 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
 		if ( (bytesPerLine & 3) != 0 )                      // do dword alignment
 			bytesPerLine += 4 - (bytesPerLine & 3);
 
-		TexImage * image = TexImage :: new3D ( width, height, depth, numComponents ); 
-	
+		TexImage * image = TexImage :: new3D ( width, height, depth, numComponents );
+
 		loadUncompressed16BitRGBData ( data, ddsd, bytesPerLine, image -> imageData () );
-		
+
 		return image;
 	}
 
@@ -625,7 +625,7 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
     if ( (bytesPerLine & 3) != 0 )                      // do dword alignment
         bytesPerLine += 4 - (bytesPerLine & 3);
 
-	TexImage * image = TexImage :: new3D ( width, height, depth, numComponents ); 
+	TexImage * image = TexImage :: new3D ( width, height, depth, numComponents );
     unsigned char     * buf   = new unsigned char [bytesPerLine];
     unsigned char     * dest  = image -> imageData ();
 
@@ -650,7 +650,7 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
     }
 
     delete buf;
-	
+
 	return image;
 }
 
@@ -665,7 +665,7 @@ bool	DdsDecoder :: loadUncompressed ( Data * data, const DDS_HEADER& ddsd, int n
     	bytesPerLine += 4 - (bytesPerLine & 3);
 
     unsigned char    * buf     = new unsigned char [bytesPerLine];
-	
+
     for ( i = 0; i < h; i++ )
     {
     	data -> getBytes ( buf, bytesPerLine );
@@ -706,10 +706,10 @@ TexImage * DdsDecoder :: loadUncompressed8BitRGB ( Data * data, const DDS_HEADER
     if ( (bytesPerLine & 3) != 0 )                  // do dword alignment
     	bytesPerLine += 4 - (bytesPerLine & 3);
 
-    TexImage * image = TexImage :: new2D ( w, h, 3 ); 
+    TexImage * image = TexImage :: new2D ( w, h, 3 );
 
 	loadUncompressed8BitRGBData ( data, ddsd, numComponents, bytesPerLine, image -> imageData () );
-	
+
 	return image;
 }
 
@@ -761,9 +761,9 @@ TexImage * DdsDecoder :: loadUncompressed8BitAlpha ( Data * data, const DDS_HEAD
     	bytesPerLine += 4 - (bytesPerLine & 3);
 
     TexImage * image = TexImage :: new2D ( w, h, 1 );
-		
+
 	loadUncompressed8BitAlphaData ( data, ddsd, bytesPerLine, image -> imageData () );
-	
+
 	return image;
 }
 
@@ -772,14 +772,14 @@ TexImage * DdsDecoder :: loadUncompressed16BitRGB ( Data * data, const DDS_HEADE
 	int		w            = (int)ddsd.dwWidth;
 	int		h            = (int)ddsd.dwHeight;
 	int 	bytesPerLine = 2*w;
-	
+
     if ( (bytesPerLine & 3) != 0 )                  // do dword alignment
     	bytesPerLine += 4 - (bytesPerLine & 3);
 
     TexImage * image = TexImage :: new2D ( w, h, 3 );
 
 	loadUncompressed16BitRGBData ( data, ddsd, bytesPerLine, image -> imageData () );
-	
+
 	return image;
 }
 
@@ -825,7 +825,7 @@ bool	DdsDecoder :: loadUncompressed16BitRGBData ( Data * data, const DDS_HEADER&
     word    * buf = new word [bytesPerLine];
 	int		i;
 	BitMask	redMask, greenMask, blueMask;
-	
+
 	getMask ( ddsd.ddspf.dwRBitMask, redMask   );
 	getMask ( ddsd.ddspf.dwGBitMask, greenMask );
 	getMask ( ddsd.ddspf.dwBBitMask, blueMask  );
@@ -844,8 +844,8 @@ bool	DdsDecoder :: loadUncompressed16BitRGBData ( Data * data, const DDS_HEADER&
         for ( register int j = 0; j < w; j++ )
         {
 			word	val = src [0];
-			
-        	dest [0]         = (255*((val & ddsd.ddspf.dwRBitMask) >> redMask.start))  / scale [redMask.length]; 
+
+        	dest [0]         = (255*((val & ddsd.ddspf.dwRBitMask) >> redMask.start))  / scale [redMask.length];
             dest [1]         = (255*((val & ddsd.ddspf.dwGBitMask) >> greenMask.start))/ scale [greenMask.length];
             dest [2]         = (255*((val & ddsd.ddspf.dwBBitMask) >> blueMask.start)) / scale [blueMask.length];
             dest            += 3;
