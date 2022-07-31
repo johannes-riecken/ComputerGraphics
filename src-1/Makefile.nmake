@@ -1,0 +1,246 @@
+#
+# Makefile to build OpenGL 3.3/4.1 examples for  M$ Window
+#
+# Author: Alex V. Boreskoff, <steps3d@narod.ru>
+#
+
+!include <win32.mak>
+
+DEBUG = 1
+STATIC = 1
+
+!if defined (DEBUG)
+DEBUG_COMPILE_FLAGS = /Zi /MT
+DEBUG_LINK_FLAGS    = /DEBUG /DEBUGTYPE:CV /NODEFAULTLIB:libc.lib /NODEFAULTLIB:msvcrt.lib /NODEFAULTLIB:msvcprt.lib /NODEFAULTLIB:libcmtd.lib libcmt.lib 
+!else
+DEBUG_COMPILE_FLAGS = /MT
+DEBUG_LINK_FLAGS    = /NODEFAULTLIB:libc.lib /NODEFAULTLIB:msvcrt.lib /NODEFAULTLIB:msvcprt.lib libcmt.lib 
+!endif
+
+CC              = cl
+LINK            = link
+OPENGL          = opengl32.lib freeglut_static.lib
+
+#
+# Insert here paths for freeglut, glew and OpenCL SDK
+#
+
+FREEGLUT      = f:/Libraries/freeglut
+GLEW          = f:/Libraries/glew-1.9.0
+OCL_INC_PATH  = "C:/Program Files (x86)/NVIDIA GPU Computing Toolkit/CUDA/v5.0/include/"
+OCL_LIB_PATH  = "C:/Program Files (x86)/NVIDIA GPU Computing Toolkit/CUDA/v5.0/lib/Win32/"
+OCL_LIB=OpenCL.lib
+
+INC = $(INC) -I$(FREEGLUT) -I$(GLEW)/include -Ilibs -I. -I$(OCL_INC_PATH)
+
+!if defined (STATIC)
+LLDLIBS  = $(LFLAGS) $(DEBUG_LINK_FLAGS) $(OPENGL) glew32s.lib /LIBPATH:$(FREEGLUT)/lib/win32-vc2010 /LIBPATH:$(GLEW)/lib /LIBPATH:libs zlib.lib libpng.lib libjpeg.lib  /LIBPATH:$(OCL_LIB_PATH) $(OCL_LIB)
+CFLAGS   = $(CFLAGS) /EHsc $(DEBUG_COMPILE_FLAGS) -DWIN32 -D_CRT_SECURE_NO_DEPRECATE -DFREEGLUT_STATIC -DGLEW_STATIC
+!else
+LLDLIBS  = $(LFLAGS) $(DEBUG_LINK_FLAGS) $(OPENGL) glew32.lib /LIBPATH:$(FREEGLUT)/lib/win32-vc2010 /LIBPATH:$(GLEW)/lib /LIBPATH:libs /LIBPATH:$(OCL_LIB_PATH) zlib.lib libpng.lib libjpeg.lib $(OCL_LIB)
+CFLAGS   = $(CFLAGS) /EHsc $(DEBUG_COMPILE_FLAGS) -DWIN32 -D_CRT_SECURE_NO_DEPRECATE -DFREEGLUT_STATIC
+!endif
+
+MATH = vec2.obj vec3.obj vec4.obj mat2.obj mat3.obj mat4.obj quat.obj plane.obj bbox.obj randUtils.obj eig3.obj kdop.obj
+TEXT = Texture.obj TexImage.obj TgaEncoder.obj TgaDecoder.obj DdsDecoder.obj BmpDecoder.obj JpegDecoder.obj PngDecoder.obj Resources.obj FileSystem.obj ZipFileSystem.obj TexFormat.obj
+WRAP = Data.obj Program.obj VertexBuffer.obj Framebuffer.obj stringUtils.obj glUtilities.obj  UbAccessor.obj Sampler.obj ScreenQuad.obj Sync.obj Query.obj TransformFeedback4.obj Log.obj Pipeline.obj
+
+EXES = ashikhmin-shirley.exe bezier.exe blinn-phong.exe blinn-phong-norm.exe cartoon.exe cartoon-ext.exe cellular.exe cellular-2.exe charcoal.exe cook-torrance.exe dof.exe ds-1.exe ds-2.exe ds-3.exe embm.exe env-mapping.exe eroded.exe example-cubemap.exe example-instanced.exe fur.exe geom-1.exe geom-2.exe glass.exe glass-2.exe gooch.exe interleaved.exe interleaved-loc.exe lambert.exe marble.exe  oren-nayar.exe per-pixel-fog.exe phong.exe phong-norm.exe pn.exe point-sprites.exe reflection.exe render-to-texture.exe rotate-1.exe rotate-2.exe separate.exe simple-1.exe simple-2.exe soft-particles.exe ssao.exe strauss.exe textured-3d.exe textured-mesh.exe torus-lit.exe torus-unlit.exe transform-feedback.exe water.exe watercolor.exe watercolor-2.exe wood.exe pom.exe opencl-test.exe opencl-test-2.exe mat-1.exe mat-2.exe opencl-particles.exe
+
+all: $(EXES)
+
+ashikhmin-shirley.exe: ashikhmin-shirley.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+bezier.exe: bezier.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+blinn-phong.exe: blinn-phong.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+blinn-phong-norm.exe: blinn-phong-norm.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+cartoon.exe: cartoon.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+cartoon-ext.exe: cartoon-ext.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+cellular.exe: cellular.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+cellular-2.exe: cellular-2.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+charcoal.exe: charcoal.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+cook-torrance.exe: cook-torrance.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+dof.exe: dof.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+ds-1.exe: ds-1.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+ds-2.exe: ds-2.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+ds-3.exe: ds-3.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+embm.exe: embm.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+env-mapping.exe: env-mapping.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+eroded.exe: eroded.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj version.res
+	$(link) $** $(LLDLIBS)
+
+example-cubemap.exe: example-cubemap.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+example-instanced.exe: example-instanced.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+fur.exe: fur.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+geom-1.exe: geom-1.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+geom-2.exe: geom-2.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+glass.exe: glass.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+glass-2.exe: glass-2.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+gooch.exe: gooch.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+interleaved.exe: interleaved.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  version.res
+	$(link) $** $(LLDLIBS)
+
+interleaved-loc.exe: interleaved-loc.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  version.res
+	$(link) $** $(LLDLIBS)
+
+lambert.exe: lambert.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+marble.exe: marble.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+opencl-particles.exe: opencl-particles.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+oren-nayar.exe: oren-nayar.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+per-pixel-fog.exe: per-pixel-fog.obj BasicMesh.obj obj-loader.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+phong.exe: phong.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+phong-norm.exe: phong-norm.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+pn.exe: pn.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+point-sprites.exe: point-sprites.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+pom.exe: pom.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+reflection.exe: reflection.obj BasicMesh.obj obj-loader.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+render-to-texture.exe: render-to-texture.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+rotate-1.exe: rotate-1.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  version.res
+	$(link) $** $(LLDLIBS)
+
+rotate-2.exe: rotate-2.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+separate.exe: separate.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  version.res
+	$(link) $** $(LLDLIBS)
+
+simple-1.exe: simple-1.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  version.res
+	$(link) $** $(LLDLIBS)
+
+simple-2.exe: simple-2.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj version.res
+	$(link) $** $(LLDLIBS)
+
+soft-particles.exe: soft-particles.obj BasicMesh.obj Camera.obj GlutWindow.obj $(MATH) $(WRAP) $(TEXT) version.res
+	$(link) $** $(LLDLIBS)
+
+ssao.exe: ssao.obj BasicMesh.obj Camera.obj GlutWindow.obj $(MATH) $(WRAP) $(TEXT) version.res
+	$(link) $** $(LLDLIBS)
+
+strauss.exe: strauss.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+textured-3d.exe: textured-3d.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+textured-mesh.exe: textured-mesh.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+torus-lit.exe: torus-lit.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+torus-unlit.exe: torus-unlit.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+transform-feedback.exe: transform-feedback.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj  BasicMesh.obj version.res
+	$(link) $** $(LLDLIBS)
+
+water.exe: water.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj version.res
+	$(link) $** $(LLDLIBS)
+
+watercolor.exe: watercolor.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj version.res
+	$(link) $** $(LLDLIBS)
+
+watercolor-2.exe: watercolor-2.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj version.res
+	$(link) $** $(LLDLIBS)
+
+wood.exe: wood.obj BasicMesh.obj Camera.obj $(MATH) $(WRAP) $(TEXT) GlutWindow.obj version.res
+	$(link) $** $(LLDLIBS)
+
+opencl-test.exe: opencl-test.obj
+	$(link) $** $(LLDLIBS)
+
+opencl-test-2.exe: opencl-test-2.obj
+	$(link) $** $(LLDLIBS)
+
+mat-1.exe: mat-1.obj
+	$(link) $** $(LLDLIBS)
+
+mat-2.exe: mat-2.obj
+	$(link) $** $(LLDLIBS)
+
+clean:
+	@del $(EXES) $(OBJS) version.res *.obj *.ilk *.pdb 2> nul
+
+.cpp.obj:
+	$(CC) $(CFLAGS) $(INC) /c $<
+
+.c.obj:
+	$(CC) $(CFLAGS) $(INC) /c $<
+
+{eig3x3}.cpp.obj::
+	$(CC) $(CFLAGS) $(INC) /c $<
+
+
+version.res : version.rc
+	$(RC) $(RCFLAGS) /r /fo"version.res" version.rc

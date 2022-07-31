@@ -1,0 +1,34 @@
+In order to compile these example you need following libraries installed:
+- freeglut
+- GLEW
+
+In order to compile and run OpenCL examples you will also need OpenCL SDK
+for your graphics card.
+
+Freeglut can be downloaded from http://freeglut.sourceforge.net/.
+GLEW can be downloaded from http://glew.sourceforge.net/.
+For OpenCL SDK refer to the website of your graphics card manufacturer.
+
+For Windows after installing required libraries write the paths to these
+libraries into the file Makefile.nmake. It should look like shown below.
+
+FREEGLUT      = f:/Libraries/freeglut
+GLEW          = f:/Libraries/glew-1.9.0
+OCL_INC_PATH  = "C:/Program Files (x86)/NVIDIA GPU Computing Toolkit/CUDA/v5.0/include/"
+OCL_LIB_PATH  = "C:/Program Files (x86)/NVIDIA GPU Computing Toolkit/CUDA/v5.0/lib/Win32/"
+
+For Linux you also need to install zlib, libjpeg and libpng.
+After installing OpenCL SDK write path to it into the Makefile into OPENCLPATH.
+It should like like is shown below.
+
+OPENCLPATH = /usr/local/cuda-5.0/include/
+
+To compile the examples for Windows open the Visual Studion command prompt, go
+to the directory with example and type the following command:
+
+	nmake -f Makefile.nmake
+
+To compile the examples for Linux just issue the make command.
+	make
+
+
