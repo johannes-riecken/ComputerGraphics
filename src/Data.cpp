@@ -18,7 +18,6 @@
     #define	O_BINARY	0
 #endif
 
-#include	<malloc.h>
 #include	<memory.h>
 #include	<string.h>
 #include	"Data.h"

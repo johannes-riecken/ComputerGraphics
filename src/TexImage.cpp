@@ -3,7 +3,6 @@
 //
 
 #include	<assert.h>
-#include	<malloc.h>		// ??? do we need it ????
 #include    <memory.h>
 #include	<string.h>
 #include	"TexImage.h"

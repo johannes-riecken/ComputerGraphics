@@ -7,6 +7,7 @@
 #define	__GL_UTILITIES__
 
 #include	<string.h>
+#include <stdlib.h>
 
 		// get current OpenGL error desc or NULL if no error
 const char * getGlErrorString ();
