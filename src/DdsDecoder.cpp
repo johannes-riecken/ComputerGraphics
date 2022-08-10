@@ -635,7 +635,7 @@ TexImage * DdsDecoder :: load3D ( Data * data, const DDS_HEADER& ddsd )
                                                         // rearrange components
         unsigned char * src  = buf;
 
-        for ( register int j = 0; j < (int)ddsd.dwWidth; j++ )
+        for ( int j = 0; j < (int)ddsd.dwWidth; j++ )
         {
             dest [0] = src [2];                     // red
             dest [1] = src [1];                     // green
@@ -674,7 +674,7 @@ bool	DdsDecoder :: loadUncompressed ( Data * data, const DDS_HEADER& ddsd, int n
         unsigned char * dest = image + i * w * numComponents;
         unsigned char * src  = buf;
 
-        for ( register int j = 0; j < w; j++ )
+        for ( int j = 0; j < w; j++ )
         {
         	dest [0] = src [2];                     // red
             dest [1] = src [1];                     // green
@@ -731,7 +731,7 @@ bool	DdsDecoder :: loadUncompressed8BitRGBData ( Data * data, const DDS_HEADER& 
         unsigned char * dest = ptr + i * w * 3;
         unsigned char * src  = buf;
 
-        for ( register int j = 0; j < w; j++ )
+        for ( int j = 0; j < w; j++ )
         {
         	dest [0]         = 0;                     // red
             dest [1]         = 0;                     // green
@@ -801,7 +801,7 @@ bool	DdsDecoder :: loadUncompressed8BitAlphaData ( Data * data, const DDS_HEADER
         unsigned char * dest = ptr + i * w ;
         unsigned char * src  = buf;
 
-        for ( register int j = 0; j < w; j++ )
+        for ( int j = 0; j < w; j++ )
         {
 			dest [0] = src [0];
             dest    += 1;
@@ -841,7 +841,7 @@ bool	DdsDecoder :: loadUncompressed16BitRGBData ( Data * data, const DDS_HEADER&
         unsigned char * dest = ptr + i * w * 3;
         word * src  = buf;
 
-        for ( register int j = 0; j < w; j++ )
+        for ( int j = 0; j < w; j++ )
         {
 			word	val = src [0];
 

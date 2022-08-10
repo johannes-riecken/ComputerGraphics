@@ -21,7 +21,7 @@ int	vec4 :: getMainAxis () const
 	int		axis = 0;
 	float	val  = (float) fabs ( x );
 
-	for ( register int i = 1; i < 4; i++ )
+	for ( int i = 1; i < 4; i++ )
 	{
 		float	vNew = (float) fabs ( operator [] ( i ) );
 

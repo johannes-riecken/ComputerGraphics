@@ -21,7 +21,7 @@ int	vec3 :: getMainAxis () const
 	int		axis = 0;
 	float	val  = (float) fabs ( x );
 
-	for ( register int i = 1; i < 3; i++ )
+	for ( int i = 1; i < 3; i++ )
 	{
 		float	vNew = (float) fabs ( operator [] ( i ) );
 
@@ -67,7 +67,7 @@ vec3&	vec3 :: clamp ( float lower, float upper )
 	else
 	if ( y > upper )
 		y = upper;
-			
+
 	if ( z < lower )
 		z = lower;
 	else

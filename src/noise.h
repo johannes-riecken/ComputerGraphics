@@ -65,9 +65,9 @@ public:
 		long	kp  = (long) floor ( pt.z );
 		float	sum = 0;
 
-		for ( register long i = ip; i <= ip + 1; i++ )
-			for ( register long j = jp; j <= jp + 1; j++ )
-				for ( register long k = kp; k <= kp + 1; k++ )
+		for ( long i = ip; i <= ip + 1; i++ )
+			for ( long j = jp; j <= jp + 1; j++ )
+				for ( long k = kp; k <= kp + 1; k++ )
 					sum += omega ( i, j, k, vec3 ( pt.x - i, pt.y - j, pt.z - k ) );
 
 		return sum;

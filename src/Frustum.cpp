@@ -66,7 +66,7 @@ void	Frustum :: set ( const mat4& matrix )
 
 bool	Frustum :: pointInFrustum ( const vec3& v ) const
 {
-	for ( register int i = 0; i < 6; i++ )
+	for ( int i = 0; i < 6; i++ )
 		if ( planes [i].classify ( v ) == IN_BACK )
 			return false;
 
@@ -75,7 +75,7 @@ bool	Frustum :: pointInFrustum ( const vec3& v ) const
 
 bool	Frustum :: boxInFrustum ( const bbox& box ) const
 {
-	for ( register int i = 0; i < 6; i++ )
+	for ( int i = 0; i < 6; i++ )
 		if ( box.classify ( planes [i] ) == IN_BACK )
 			return false;
 			
