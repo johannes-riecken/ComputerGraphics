@@ -3,6 +3,7 @@
 //
 
 #include	<GL/glew.h>
+#include <cstdlib>
 #include	<stdio.h>
 #include	<memory.h>
 #include	"glUtilities.h"

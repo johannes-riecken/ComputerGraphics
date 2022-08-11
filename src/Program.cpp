@@ -14,6 +14,7 @@
 #include	"glUtilities.h"
 #include    "Program.h"
 #include	<map>
+#include <cstdlib>
 #include	"stringUtils.h"
 
 Program :: Program ()

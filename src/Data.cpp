@@ -20,6 +20,7 @@
 
 #include	<memory.h>
 #include	<string.h>
+#include <cstdlib>
 #include	"Data.h"
 
 Data :: Data ( void * ptr, int len )
@@ -56,11 +57,11 @@ Data :: Data ( const string& fileName )
 
 #ifndef _WIN32
 	struct	stat statBuf;
-	
+
 	fstat ( fd, &statBuf );
-	
-	long	len = statBuf.st_size; 
-#else	
+
+	long	len = statBuf.st_size;
+#else
 	long	len = filelength ( fd );
 #endif
 

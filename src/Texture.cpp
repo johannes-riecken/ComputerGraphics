@@ -5,7 +5,7 @@
 // Author: Alexey V. Boreskov
 //
 
-#include    <stdlib.h>
+#include    <cstdlib>
 #include	"Texture.h"
 #include	"TexImage.h"
 #include	"Resources.h"

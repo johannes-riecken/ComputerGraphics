@@ -6,6 +6,7 @@
 #include    <memory.h>
 #include	<string.h>
 #include	"TexImage.h"
+#include <cstdlib>
 
 TexImage :: TexImage ( int theWidth, int theHeight, int theDepth, int theNumComponents )
 {
