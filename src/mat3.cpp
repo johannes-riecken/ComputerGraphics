@@ -10,40 +10,40 @@
 
 mat3 :: mat3 ( const float * values )
 {
-	m [0] = values [0]; 
-	m [1] = values [1]; 
+	m [0] = values [0];
+	m [1] = values [1];
 	m [2] = values [2];
-	m [3] = values [3]; 
-	m [4] = values [4]; 
+	m [3] = values [3];
+	m [4] = values [4];
 	m [5] = values [5];
-	m [6] = values [6]; 
-	m [7] = values [7]; 
+	m [6] = values [6];
+	m [7] = values [7];
 	m [8] = values [8];
 }
 
 mat3 :: mat3 ( float v )
 {
-	m [0] = v; 
-	m [1] = 0; 
+	m [0] = v;
+	m [1] = 0;
 	m [2] = 0;
-	m [3] = 0; 
-	m [4] = v; 
+	m [3] = 0;
+	m [4] = v;
 	m [5] = 0;
-	m [6] = 0; 
-	m [7] = 0; 
+	m [6] = 0;
+	m [7] = 0;
 	m [8] = v;
 }
 
 mat3 :: mat3 ( const vec3& v )
 {
-	m [0] = v.x; 
-	m [1] = 0; 
+	m [0] = v.x;
+	m [1] = 0;
 	m [2] = 0;
-	m [3] = 0; 
-	m [4] = v.y; 
+	m [3] = 0;
+	m [4] = v.y;
 	m [5] = 0;
-	m [6] = 0; 
-	m [7] = 0; 
+	m [6] = 0;
+	m [7] = 0;
 	m [8] = v.z;
 }
 
@@ -92,38 +92,38 @@ mat3& mat3 :: operator = ( const mat3& a )
 
 mat3& mat3 :: operator += ( const mat3 &a )
 {
-	m [0] += a.m [0]; 
-	m [1] += a.m [1]; 
+	m [0] += a.m [0];
+	m [1] += a.m [1];
 	m [2] += a.m [2];
-	m [3] += a.m [3]; 
-	m [4] += a.m [4]; 
+	m [3] += a.m [3];
+	m [4] += a.m [4];
 	m [5] += a.m [5];
-	m [6] += a.m [6]; 
-	m [7] += a.m [7]; 
+	m [6] += a.m [6];
+	m [7] += a.m [7];
 	m [8] += a.m [8];
-	
+
 	return *this;
 }
 
 mat3& mat3 :: operator -= ( const mat3 &a )
 {
-	m [0] -= a.m [0]; 
-	m [1] -= a.m [1]; 
+	m [0] -= a.m [0];
+	m [1] -= a.m [1];
 	m [2] -= a.m [2];
-	m [3] -= a.m [3]; 
-	m [4] -= a.m [4]; 
+	m [3] -= a.m [3];
+	m [4] -= a.m [4];
 	m [5] -= a.m [5];
-	m [6] -= a.m [6]; 
-	m [7] -= a.m [7]; 
+	m [6] -= a.m [6];
+	m [7] -= a.m [7];
 	m [8] -= a.m [8];
-	
+
 	return *this;
 }
 
 mat3& mat3 :: operator *= ( const mat3 &a )
 {
 	float	t [9];
-	
+
 	t [0] = m [0] * a.m [0] + m [1] * a.m [3] + m [2] * a.m [6];
 	t [1] = m [0] * a.m [1] + m [1] * a.m [4] + m [2] * a.m [7];
 	t [2] = m [0] * a.m [2] + m [1] * a.m [5] + m [2] * a.m [8];
@@ -133,7 +133,7 @@ mat3& mat3 :: operator *= ( const mat3 &a )
 	t [6] = m [6] * a.m [0] + m [7] * a.m [3] + m [8] * a.m [6];
 	t [7] = m [6] * a.m [1] + m [7] * a.m [4] + m [8] * a.m [7];
 	t [8] = m [6] * a.m [2] + m [7] * a.m [5] + m [8] * a.m [8];
-		
+
 	m [0] = t [0];
 	m [1] = t [1];
 	m [2] = t [2];
@@ -143,37 +143,37 @@ mat3& mat3 :: operator *= ( const mat3 &a )
 	m [6] = t [6];
 	m [7] = t [7];
 	m [8] = t [8];
-	
+
 	return *this;
 }
 
 mat3& mat3 :: operator *= ( float f )
 {
-	m [0] *= f; 
-	m [1] *= f; 
+	m [0] *= f;
+	m [1] *= f;
 	m [2] *= f;
-	m [3] *= f; 
-	m [4] *= f; 
+	m [3] *= f;
+	m [4] *= f;
 	m [5] *= f;
-	m [6] *= f; 
-	m [7] *= f; 
+	m [6] *= f;
+	m [7] *= f;
 	m [8] *= f;
-	
+
 	return *this;
 }
 
 mat3& mat3 :: operator /= ( float f )
 {
-	m [0] /= f; 
-	m [1] /= f; 
+	m [0] /= f;
+	m [1] /= f;
 	m [2] /= f;
-	m [3] /= f; 
-	m [4] /= f; 
+	m [3] /= f;
+	m [4] /= f;
 	m [5] /= f;
-	m [6] /= f; 
-	m [7] /= f; 
+	m [6] /= f;
+	m [7] /= f;
 	m [8] /= f;
-	
+
 	return *this;
 }
 
@@ -188,12 +188,12 @@ bool	mat3 :: invert ()
 {
 	float d = det ();
 	mat3  a;
-	
+
 	if ( fabs ( d ) < EPS )
 		return false;
-		
+
 	d = 1.0f / d;
-	
+
 					// compute a determinant
 	a.m [0] = (m [4] * m [8] - m [5] * m [7]) * d;
 	a.m [1] = (m [2] * m [7] - m [1] * m [8]) * d;
@@ -204,7 +204,7 @@ bool	mat3 :: invert ()
 	a.m [6] = (m [3] * m [7] - m [4] * m [6]) * d;
 	a.m [7] = (m [1] * m [6] - m [0] * m [7]) * d;
 	a.m [8] = (m [0] * m [4] - m [1] * m [3]) * d;
-	
+
 	return true;
 }
 
@@ -222,27 +222,27 @@ bool	mat3 :: isSymmetric () const
 
 mat3 operator + ( const mat3 &a, const mat3& b )
 {
-	return mat3 ( a.m [0] + b.m [0], 
-				  a.m [1] + b.m [1], 
+	return mat3 ( a.m [0] + b.m [0],
+				  a.m [1] + b.m [1],
 				  a.m [2] + b.m [2],
-				  a.m [3] + b.m [3], 
-				  a.m [4] + b.m [4], 
+				  a.m [3] + b.m [3],
+				  a.m [4] + b.m [4],
 				  a.m [5] + b.m [5],
-				  a.m [6] + b.m [6], 
-				  a.m [7] + b.m [7], 
+				  a.m [6] + b.m [6],
+				  a.m [7] + b.m [7],
 				  a.m [8] + b.m [8] );
 }
 
 mat3 operator - ( const mat3 &a, const mat3& b )
 {
-	return mat3 ( a.m [0] - b.m [0], 
-				  a.m [1] - b.m [1], 
+	return mat3 ( a.m [0] - b.m [0],
+				  a.m [1] - b.m [1],
 				  a.m [2] - b.m [2],
-				  a.m [3] - b.m [3], 
-				  a.m [4] - b.m [4], 
+				  a.m [3] - b.m [3],
+				  a.m [4] - b.m [4],
 				  a.m [5] - b.m [5],
-				  a.m [6] - b.m [6], 
-				  a.m [7] - b.m [7], 
+				  a.m [6] - b.m [6],
+				  a.m [7] - b.m [7],
 				  a.m [8] - b.m [8] );
 }
 
@@ -413,7 +413,7 @@ vec3 eulerFromMatrix ( const mat3& m )
 	const float * data = m.data ();
 	vec3          angle;
 	float		  c;
-	
+
 	angle.x = -asinf ( data [2] );
 	c       =  cosf  ( angle.x  );
 
@@ -421,7 +421,7 @@ vec3 eulerFromMatrix ( const mat3& m )
 	{
 		angle.y = atan2f ( data [5] / c, data [8] / c );		// m12, m22
 		angle.z = atan2f ( data [1] / c, data [0] / c );
-	} 
+	}
 	else
 	{
 		angle.y = 0.0f;

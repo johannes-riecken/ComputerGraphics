@@ -9,18 +9,18 @@
 int TransformFeedback4 :: maxInterlavedAttribs ()
 {
 	int maxSize;
-		
+
 	glGetIntegerv ( GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS, &maxSize );
-		
+
 	return maxSize;
 }
 
 int TransformFeedback4 :: maxSeparateAttribs ()
 {
 	int maxSize;
-	
+
 	glGetIntegerv ( GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS, &maxSize );
-		
+
 	return maxSize;
 }
 
@@ -29,7 +29,7 @@ int TransformFeedback4 :: maxBuffers ()
 	int	maxBuffers;
 
 	glGetIntegerv ( GL_MAX_TRANSFORM_FEEDBACK_BUFFERS, &maxBuffers );
-		
+
 	return maxBuffers;
 }
 

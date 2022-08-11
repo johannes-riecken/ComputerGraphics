@@ -34,28 +34,28 @@ class BasicMesh
 	VertexBuffer vertBuf; // vertex data
 	VertexBuffer indBuf;  // index buffer
 	string		 name;
-	
+
 public:
 	BasicMesh ( BasicVertex * vertices, const int * indices, int nv, int nt );
-	
+
 	void	render ();
 	void	renderInstanced ( int primCount );
-	
+
 	const string& getName () const
 	{
 		return name;
 	}
-	
+
 	int getNumVertices () const
 	{
 		return numVertices;
 	}
-	
+
 	int getNumTriangles () const
 	{
 		return numTriangles;
 	}
-	
+
 	void setName ( const string& theName )
 	{
 		name = theName;

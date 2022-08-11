@@ -47,10 +47,10 @@ bool	TgaEncoder :: encode ( unsigned char * image, int width, int height, int nu
         pixel [0] = pixel [2];
         pixel [2] = temp;
     }
- 
+
     write ( file, &hdr, sizeof ( hdr ) );
     write ( file, image, numPixels * 3 );
     close ( file );
-	
+
 	return true;
 }

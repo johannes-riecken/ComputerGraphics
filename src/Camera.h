@@ -49,21 +49,21 @@ public:
     vec3	getViewDir () const
     {
 		mat3	r ( rot );
-		
+
         return r.transpose () * vec3 ( 0, 0, -1 );		// ? mb -1
     }
 
     vec3	getSideDir () const
     {
 		mat3	r ( rot );
-		
+
         return r.transpose () * vec3 ( 1, 0, 0 );		// ? mb -1
     }
 
     vec3	getUpDir () const
     {
 		mat3	r ( rot );
-		
+
         return r.transpose () * vec3 ( 0, 1, 0 );		// ? mb -1
     }
 
@@ -106,12 +106,12 @@ public:
 	{
 		return proj;
 	}
-	
+
 	const mat4& getModelview () const
 	{
 		return mv;
 	}
-	
+
 	quat	getOrientation () const;
 
 /*
@@ -167,7 +167,7 @@ public:
 
 											// return poly (quad) for intersection of plane paraller to zNear plane with given z
 	void	getPlanePolyForZ ( float z, vec3 * poly ) const;
-	
+
 private:
     void    computeMatrix ();				// compute vectors, transform matrix and build
     										// viewing frustrum

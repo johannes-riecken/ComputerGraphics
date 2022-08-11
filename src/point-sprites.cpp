@@ -26,32 +26,32 @@ class	MeshWindow : public GlutRotateWindow
 	vec3         vertices [NUM_VERTICES];
 	Texture		 tex;
 	vec3		 eye;
-	
+
 public:
 	MeshWindow () : GlutRotateWindow ( 200, 200, 400, 400, "Point sprites" )
 	{
 		string	texName = "Textures/Fire.bmp";
-	
+
 		if ( !tex.load2D ( texName.c_str () ) )
 		{
 			printf ( "Error loading texture %s\n", texName.c_str () );
 			exit   ( 1 );
 		}
-		
+
 		if ( !program.loadProgram ( "sprite.glsl" ) )
 		{
 			printf ( "Error building program: %s\n", program.getLog ().c_str () );
 			exit   ( 2 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "image", 0 );
-		
+
 		eye  = vec3 ( 7, 7, 7 );
-		
+
 		for ( int i = 0; i < NUM_VERTICES; i++ )
 			vertices [i] = vec3 ( randUniform (), randUniform (), randUniform () ) * 10.0 - vec3 ( 5.0 );
-			
+
 		vao.create  ();
 		vao.bind    ();
 		buf.create  ();
@@ -69,19 +69,19 @@ public:
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		mat4	mv = getRotation ();
-	
+
 		tex.bind ();
 		program.bind ();
 		program.setUniformMatrix ( "mv",  mv );
 		vao.bind ();
-		
+
 		glEnable     ( GL_BLEND );
 		glDisable    ( GL_DEPTH_TEST );
 		glBlendFunc  ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 		glDrawArrays ( GL_POINTS, 0, NUM_VERTICES );
 		glDisable    ( GL_BLEND );
 		vao.unbind ();
-		
+
 		program.unbind ();
 		tex.unbind ();
 	}
@@ -89,14 +89,14 @@ public:
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 20.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
-		program.unbind ();  
+		program.unbind ();
 	}
 
 };
@@ -104,10 +104,10 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MeshWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

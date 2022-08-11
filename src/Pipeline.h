@@ -23,7 +23,7 @@ public:
 	{
 		return id;
 	}
-	
+
 	bool	isOk () const
 	{
 		return id != 0;

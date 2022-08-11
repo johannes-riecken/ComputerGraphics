@@ -62,7 +62,7 @@ bbox&    bbox :: addVertex ( const vec3& v )
 
 	if ( v.z > maxPoint.z )
 		maxPoint.z = v.z;
-		
+
 	return *this;
 }
 
@@ -88,7 +88,7 @@ bbox&	bbox :: addVertices ( const vec3 * v, int numVertices )
 		if ( v [i].z > maxPoint.z )
 			maxPoint.z = v [i].z;
 	}
-	
+
 	return *this;
 }
 

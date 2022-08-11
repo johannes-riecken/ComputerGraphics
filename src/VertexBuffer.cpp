@@ -31,7 +31,7 @@ void	VertexBuffer :: destroy ()
 bool	VertexBuffer :: create ()
 {
 	glGenBuffersARB ( 1, &id );
-	
+
 	return ok = (glIsBuffer ( id ) == GL_TRUE);
 }
 
@@ -78,7 +78,7 @@ void	VertexBuffer :: setAttrPtr ( int index, int numComponents, GLsizei stride, 
 							normalized ? GL_TRUE : GL_FALSE,
 							stride, 				// stride (offset to next vertex data)
 							(const GLvoid*) ptr );
-		
+
 	glEnableVertexAttribArray ( index );
 }
 

@@ -1,5 +1,5 @@
 //
-// Rippled reflection example 
+// Rippled reflection example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -43,46 +43,46 @@ class	MyWindow : public GlutWindow
 	mat4 mv;
 	mat4 proj;
 	mat4 mirrorMat;
-	
+
 public:
 	MyWindow () : GlutWindow ( 200, 200, 500, 500, "Rippled reflection" )
 	{
 		Texture * image = fb.createColorTexture ( GL_RGBA, GL_RGBA8, GL_CLAMP, 0 );
-		
+
 		fb.create ();
 		fb.bind   ();
-		
+
 		if ( !fb.attachColorTexture ( image ) )
 			printf ( "buffer error with color attachment\n");
 
 		if ( !fb.isOk () )
 			printf ( "Error with framebuffer\n" );
-						
+
 		fb.unbind ();
 
 		if ( !program.loadProgram ( "reflection-1.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "image", 0 );
 		program.unbind ();
-		
+
 		if ( !program2.loadProgram ( "reflection-2.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program2.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program2.bind ();
 		program2.setTexture ( "image",    0 );
 		program2.setTexture ( "noiseMap", 1 );
 		program2.unbind ();
-		
+
 		box1 = createBox  ( vec3 ( -6, -2, -6 ),    vec3 ( 12, 5, 12 ) );
 		box2 = createBox  ( vec3 ( -1.5, 1, -0.5 ), vec3 ( 1,  2,  2 ) );
 		knot = createKnot ( 1, 4, 120, 30 );
@@ -94,7 +94,7 @@ public:
 		noise.load3D    ( "Textures/noise-3D.dds" );
 
 		camera.setRightHanded ( false );
-	
+
 		yaw   = 0;
 		pitch = 0;
 		roll  = 0;
@@ -102,46 +102,46 @@ public:
 		mouseOldY = 0;
 		angle     = 0;
 	}
-	
+
 	void redisplay ()
 	{
 		vec3 up   = camera.getUpDir ();
 		vec3 view = camera.getViewDir ();
 		vec3 pos  = camera.getPos ();
-		
+
 		proj = camera.getProjection ();
 		mv   = lookAt ( pos, pos + view, up );
 
 		renderToBuffer ();
-		
+
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		
+
 		proj = camera.getProjection ();
 		mv   = lookAt ( pos, pos + view, up );
-		
+
 		program.bind ();
 		program.setUniformMatrix ( "proj",  proj );
 		program.setUniformMatrix ( "mv",    mv   );
-		
+
 		displayBoxes ();
-		
+
 		program.unbind ();
 
 		renderWater ();
 	}
-	
+
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		camera.setViewSize ( w, h, 60 );
 	}
-	
+
     void	keyTyped ( unsigned char key, int modifiers, int x, int y )
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )	//	quit requested
 			exit ( 0 );
-			
+
 		if ( key == 'w' || key == 'W' )
 			camera.moveBy ( camera.getViewDir () * 0.2 );
 		else
@@ -200,7 +200,7 @@ public:
 		eye += 0.5 * vec3 ( dir, dir, dir );
 
 		reshape ( getWidth (), getHeight () );
-		
+
 		glutPostRedisplay ();
 	}
 
@@ -211,7 +211,7 @@ public:
 		glutPostRedisplay ();
 	}
 
-private:	
+private:
 	void displayBoxes ()
 	{
 		decalMap.bind ();
@@ -222,20 +222,20 @@ private:
 		stoneMap.unbind ();
 
 		mat4 m = mv * mat4::translate ( vec3 ( 2, 0, 1 ) ) * mat4::rotateX ( angle * 0.3 ) * mat4::rotateY ( angle * 0.07 ) * mat4::scale( vec3(0.3));
-		
+
 		program.setUniformMatrix ( "mv",  m );
 
 		knotMap.bind ();
-		
+
 		knot -> render ();
-		
+
 		knotMap.unbind ();
 	}
 
 	void    renderToBuffer ()
 	{
 		fb.bind ();
-		
+
 		glClearColor ( 0, 0, 1, 1 );
 		glClear      ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -246,18 +246,18 @@ private:
 		up.y   = -up.y;
 		view.y = -view.y;
 		pos.y  = -pos.y;
-		
+
 		mat4 m = lookAt ( pos, pos + view, up );// * mat4 :: scale ( vec3 (1, -1, 1) );
-		
+
 		mv        = m;
 		mirrorMat = mat4::translate(vec3(0.5, 0.5, 0 ) ) * mat4::scale(vec3(0.5, 0.5, 1)) * proj * m;
 
 		program.bind ();
 		program.setUniformMatrix ( "proj",  camera.getProjection () );
 		program.setUniformMatrix ( "mv",    m );
-		
+
 		displayBoxes ();
-		
+
 		fb.unbind ();
 	}
 
@@ -265,15 +265,15 @@ private:
 	{
 		noise.bind ( 1 );
 		fb.getColorBuffer () -> bind ();
-		
+
 		program2.bind ();
 		program2.setUniformMatrix ( "proj",  proj );
 		program2.setUniformMatrix ( "mv",    mv   );
 		program2.setUniformMatrix ( "mirrorMat", mirrorMat );
 		program2.setUniformFloat  ( "time",  getTime () );
-		
+
 		w  -> render ();
-		
+
 		program2.unbind ();
 
 		fb.getColorBuffer () -> unbind ();
@@ -284,10 +284,10 @@ private:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

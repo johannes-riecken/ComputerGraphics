@@ -17,12 +17,12 @@ class	mat4;
 class      Frustum
 {
 	plane	planes [6];
-	
+
 public:
 	Frustum ();
-	
+
 	void	set ( const mat4& matrix );			// product of ModelView and Projection matrices
-	
+
 								// checks
 	bool	pointInFrustum ( const vec3& v   ) const;
 	bool	boxInFrustum   ( const bbox& box ) const;

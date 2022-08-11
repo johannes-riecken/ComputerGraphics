@@ -39,27 +39,27 @@ public:
 	{
 		return m;
 	}
-	
+
 	float * operator [] ( int i )				// returns pointer to i-th row
-	{ 
-		return m + i*4; 
+	{
+		return m + i*4;
 	}
-	
+
 	const float * operator [] ( int i ) const 	// returns pointer to i-th row
-	{ 
-		return m + i*4; 
+	{
+		return m + i*4;
 	}
 
 	vec4	rowAt ( int index ) const
 	{
 		return vec4 ( m [index * 4], m [index * 4 + 1], m [index * 4 + 2], m [index*4 + 3] );
 	}
-	
+
 	vec4	colAt ( int index ) const
 	{
 		return vec4 ( m [index], m [index + 4], m [index + 8], m [index + 12] );
 	}
-	
+
 	mat4& operator =  ( const mat4& a );
 	mat4& operator += ( const mat4& a );
 	mat4& operator -= ( const mat4& a );
@@ -97,13 +97,13 @@ public:
 
 	mat3	upper3x3 () const
 	{
-		return mat3 ( m [0], m [1], m [2], 
+		return mat3 ( m [0], m [1], m [2],
 		              m [4], m [5], m [6],
 					  m [8], m [9], m [10] );
 	}
-	
+
 	static	mat4	identity ();
-	
+
 	static	mat4	scale     ( const vec3& s );
 	static	mat4	translate ( const vec3& a );
 
@@ -126,7 +126,7 @@ public:
 	friend mat4 operator * ( float, const mat4& );
 	friend vec3 operator * ( const mat4&, const vec3& );
 	friend vec4 operator * ( const mat4&, const vec4& );
-	
+
 	friend class mat2;
 	friend class mat3;
 };

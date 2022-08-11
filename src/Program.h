@@ -39,7 +39,7 @@ protected:
 								// disable copying
 	Program ( const Program& );
 	Program& operator = ( const Program& );
-	
+
 public:
     Program  ();
     ~Program ();
@@ -51,11 +51,11 @@ public:
 	bool	loadProgramFromString ( const string& source );
 	bool	loadSeparate          ( GLenum type, Data * data );
 	bool	loadSeparate          ( GLenum type, const string& fileName );
-	
+
 												// load and compile a single shader, no linking
 	bool	loadShaderOfType ( Data * data, GLenum type );
 	bool	loadShaderOfType ( const char * fileName, GLenum type );
-	
+
                                                 // load shaders and link
     bool    loadShaders ( const char * vertexFileName, const char * fragmentFileName );
     bool    loadShaders ( Data * vertexShaderData, Data * fragmentShaderData );
@@ -71,7 +71,7 @@ public:
     }
 
 	bool	getLinkStatus () const;
-	
+
     bool    isOk () const                               // whether shader is ok
     {
         return ok;
@@ -81,7 +81,7 @@ public:
 	{
 		return linkRequired;
 	}
-	
+
     string  getGlError () const
     {
         return glError;
@@ -91,16 +91,16 @@ public:
 	{
 		return separate;
 	}
-	
+
     void    bind   ();
     void    unbind ();
     bool    relink ();
 														// program binary support
-	Data  * getBinary  ( GLenum * binaryFormat ) const;	
+	Data  * getBinary  ( GLenum * binaryFormat ) const;
 	bool	saveBinary ( const char * fileName, GLenum * binaryFormat ) const;
 	bool	loadBinary ( Data * data, GLenum binaryFormat );
 	bool	loadBinary ( const char * fileName, GLenum binaryFormat );
-	
+
                                                         // uniform variables handling methods
     int     locForUniformName ( const char * name );
     bool    setUniformVector  ( const char * name, const vec4& value  );
@@ -120,7 +120,7 @@ public:
     bool    setUniformUInt    ( int loc,           GLuint value       );
     vec4    getUniformVector  ( const char * name );
     vec4    getUniformVector  ( int loc           );
-	
+
 														// UBO support
 	int		indexForUniformBlock       ( const char * name ) const;
 	int		uniformBlockSize           ( int blockIndex ) const;
@@ -130,11 +130,11 @@ public:
 	void	bindBufferToIndex          ( int uniformBlockIndex, int bindingIndex );
 
     int     indexForAttrName   ( const char * name );
-	bool	setAttrPtr         ( const char * name, int numComponents, GLsizei stride, void * ptr, 
+	bool	setAttrPtr         ( const char * name, int numComponents, GLsizei stride, void * ptr,
 	                             GLenum type = GL_FLOAT, bool normalized = false );
-	bool	setAttrPtr         ( int location, int numComponents, GLsizei stride, void * ptr, 
+	bool	setAttrPtr         ( int location, int numComponents, GLsizei stride, void * ptr,
 	                             GLenum type = GL_FLOAT, bool normalized = false );
-	
+
 														// bind texture units to uniforms
     bool	setTexture         ( const char * name, int texUnit );
     bool	setTexture         ( int loc,           int texUnit );
@@ -142,10 +142,10 @@ public:
 													// bind frgament outputs
 	bool	bindFragOut        ( const char * name, int no );
 	bool	bindFragOutIndexed ( const char * name, int no, int index );
-	
+
 													// names - comma or space separated list of varyings
 	void	transformFeedbacksVars ( const char * names, GLenum mode );
-	
+
 													// geometry-shader specific
 	int	getGeometryInputType   () const;
 	int	getGeometryOutputType  () const;
@@ -156,22 +156,22 @@ public:
 	{
 		glPatchParameteri ( GL_PATCH_VERTICES, count );
 	}
-	
+
 	static	void	setTessDefaultOuterLevel ( const float v [4] );
 	static	void	setTessDefaultInnerLevel ( const float v [2] );
-	
-                                                    
+
+
     static  bool    isSupported                  ();    // check whether there is a support for GLSL
     static  string  version                      ();	// GLSL version
 	static	bool	isGeometryShaderSupported    ();
 	static	bool	isTesselationShaderSupported ();
 	static	bool	isSeparateShadersSupported   ();
-					
+
 														// transform feedback limitations
 	static	int		maxTransformFeedbackSeparateAttribs       ();
 	static	int		maxTransformFeedbackInterleavedComponents ();
-	
-	
+
+
                                                         // some limitations on program
 	static	int	maxUniformBufferBindings     ();
     static  int maxVertexUniformComponents   ();
@@ -182,13 +182,13 @@ public:
     static  int maxCombinedTextureUnits      ();
     static  int maxVaryingFloats             ();
     static  int maxFragmentUniformComponents ();
-	
+
 	static	int	maxGeometryOutputVertices    ();
 	static	int	maxGeometryUniformComponents ();
 	static	int	maxGeometryInputComponents   ();
 	static	int	maxGeometryOutputComponents  ();
 	static	int maxGeometryTotalOutputComponents ();
-	
+
 	static	int maxTessControlUniformComponents ();
 	static	int maxCombinedTessControlUnfiromComponents ();
 	static	int	maxTessControlInputComponents ();
@@ -196,7 +196,7 @@ public:
 	static	int	maxTessPatchComponents ();
 	static	int maxTessControlTotalOutputComponents ();
 	static	int	maxTessGenLevel ();
-	
+
 	static	int maxTessEvalInputComponents  ();
 	static	int maxTessEvalOutputComponents  ();
 	static	int	maxTessEvalUniformComponents ();

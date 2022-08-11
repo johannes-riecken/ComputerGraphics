@@ -41,18 +41,18 @@ string	replaceTabs ( const string& str )
 string	stringLower ( const string& s )
 {
 	string	str ( s );
-	
+
 	transform ( str.begin (), str.end (), str.begin (), ::tolower );
-	
+
 	return str;
 }
 
 string	stringUpper ( const string& s )
 {
 	string	str ( s );
-	
+
 	transform ( str.begin (), str.end (), str.begin (), ::toupper );
-	
+
 	return str;
 }
 
@@ -186,21 +186,21 @@ void Tokenizer :: setString ( const string& str, const string& seps )
 	pos        = buffer.begin ();
 }
 
-string	Tokenizer :: next () 
+string	Tokenizer :: next ()
 {
     if ( buffer.length () < 1 )				// skip if buffer is empty
-		return "";           		
+		return "";
 
     while ( pos != buffer.end () && separators.find ( *pos ) != string::npos )
         ++pos;
 
 	string	token;
-	
+
     while ( pos != buffer.end () && separators.find ( *pos ) == string::npos )
     {
         token += *pos;
         ++pos;
     }
-	
+
     return token;
 }

@@ -22,7 +22,7 @@ public:							// make all members public
 	quat ( float theX, float theY = 0, float theZ = 0, float theW = 0 ) : x ( theX ), y ( theY ), z ( theZ ) , w ( theW ) {}
 	quat ( const quat& q ) : x ( q.x ), y ( q.y ), z ( q.z ), w ( q.w ) {}
 	quat ( const vec3& v ) : x ( v.x ), y ( v.y ), z ( v.z ), w ( 0 ) {}
-	
+
 	quat ( float angle, const vec3& axis );
 	quat ( const mat3& mat );
 	quat ( float mat [3][3]    );
@@ -31,12 +31,12 @@ public:							// make all members public
 	{
 		return x * x + y * y + z * z + w * w;
 	}
-	
+
 	float	length () const
 	{
 		return sqrtf ( x * x + y * y + z * z + w * w );
 	}
-	
+
 	quat operator + () const
 	{
 		return *this;
@@ -60,12 +60,12 @@ public:							// make all members public
 	{
 		return x == q.x && y == q.y && z == q.z && w == q.w;
 	}
-	
+
 	bool	operator != ( const quat& q ) const
 	{
 		return x != q.x || y != q.y || z != q.z || w != q.w;
 	}
-	
+
 	quat& operator += ( const quat& q )
 	{
 		x += q.x;
@@ -98,27 +98,27 @@ public:							// make all members public
 	quat	inverse () const
 	{
 		float	l2 = lengthSq ();
-		
+
 		return quat ( -x / l2, -y / l2, -z /l2, w / l2 );
 	}
-	
+
 	quat&	invert ()
 	{
 		float	ls = 1.0f / lengthSq ();
-		
+
 		x *= -ls;
 		y *= -ls;
 		z *= -ls;
 		w *=  ls;
-		
+
 		return *this;
 	}
-	
+
 	vec3	rotate         ( const vec3& v ) const;
 	quat&	normalize      ();
 	quat&	initWithAngles ( float yaw, float pitch, float roll );
 	void	getMatrix      ( mat3& m ) const;
-	void	getMatrix      ( mat4& m ) const;	
+	void	getMatrix      ( mat4& m ) const;
 	quat	exp            () const;
 	quat	log            () const;
 };
@@ -159,7 +159,7 @@ inline float dot ( const quat& q1, const quat& q2 )
 inline quat normalize ( const quat& q )
 {
 	quat	qt ( q );
-	
+
 	return qt.normalize ();
 }
 

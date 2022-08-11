@@ -12,7 +12,7 @@ class	plane;
 class kdopBase
 {
 public:
-	enum 
+	enum
 	{
 		maxCount = 20
 	};

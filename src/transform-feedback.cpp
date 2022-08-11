@@ -1,5 +1,5 @@
 //
-// Transform feedback in OpenGL 3.3 example 
+// Transform feedback in OpenGL 3.3 example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -33,14 +33,14 @@ public:
 	{
 		if ( !program.loadProgram ( "tf3.glsl" ) )
 		{
-			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );		
+			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
 			exit   ( 1 );
 		}
 
 		lastTime = 0;
 		eye      = vec3 ( 3, 3, 3 );
 		ind      = 0;
-		
+
 		initParticles ();
 
 		program.bind ();
@@ -62,11 +62,11 @@ public:
 			velBuf [i].bind       ( GL_ARRAY_BUFFER );
 			velBuf [i].setData    ( NUM_PARTICLES * sizeof ( vec3 ), v, GL_STATIC_DRAW );
 			velBuf [i].setAttrPtr ( 1, 3, sizeof ( vec3 ), (void *) 0 );
-		
+
 			vao [i].unbind     ();
 		}
 	}
-	
+
 	void	initParticles ()
 	{
 		for ( int i = 0; i < NUM_PARTICLES; i++ )
@@ -86,7 +86,7 @@ public:
 		program.bind ();
 		program.setUniformMatrix ( "mv",  mv );
 		program.setUniformFloat  ( "dt",  t - lastTime );
-		
+
 		posBuf [ind^1].bindBase ( GL_TRANSFORM_FEEDBACK_BUFFER, 0 );
 		velBuf [ind^1].bindBase ( GL_TRANSFORM_FEEDBACK_BUFFER, 1 );
 
@@ -95,9 +95,9 @@ public:
 		vao [ind].bind ();
 
 		glDrawArrays ( GL_POINTS, 0, NUM_PARTICLES );
-		
+
 		vao [ind].unbind ();
-		
+
 		glEndTransformFeedback ();
 
 		program.unbind ();
@@ -108,19 +108,19 @@ public:
 	void reshape ( int w, int h )
 	{
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 20.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 1, 0 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj",    proj );
 		program.setUniformVector ( "boxSize", vec3 ( 2 ) );
-		program.unbind ();  
+		program.unbind ();
 	}
 
 	void idle ()
 	{
 		ind ^= 1;
-		
+
 		glutPostRedisplay ();
 	}
 };
@@ -128,10 +128,10 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MeshWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

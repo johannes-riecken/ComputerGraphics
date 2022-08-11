@@ -1,5 +1,5 @@
 //
-// Geometry shader example 
+// Geometry shader example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -40,7 +40,7 @@ public:
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
 			exit ( 1 );
 		}
-	
+
 		program.bind ();
 		vao.create ();
 		vao.bind   ();
@@ -68,7 +68,7 @@ public:
 		vec3	viewDir = vec3 ( 0, 0, 1 );
 		vec3	sideDir = vec3 ( 0, 1, 0 );
 		vec3	upDir   = vec3 ( 1, 0, 0 );
-	
+
 		program.bind ();
 		program.setUniformMatrix ( "mv",  mv );
 		program.setUniformVector ( "eye", eye );
@@ -84,22 +84,22 @@ public:
 	void reshape ( int w, int h )
 	{
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 15.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
-		program.unbind ();  
+		program.unbind ();
 	}
 };
 
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MeshWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

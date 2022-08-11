@@ -8,7 +8,7 @@
 
 #ifdef	_WIN32
     #pragma	warning (disable:4786)
-#endif    
+#endif
 
 #include	"FileSystem.h"
 #include	<string>

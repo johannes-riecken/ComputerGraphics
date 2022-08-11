@@ -24,16 +24,16 @@ public:
 		if ( !program.loadProgram ( "watercolor.glsl" ) )
 		{
 			printf ( "Error building program: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "noiseMap", 0 );
 		program.unbind ();
 
 		tex.load2D ( "Textures/noise-2D.png" );
-		
+
 		mesh  = createTorus ( 2, 4, 30, 30 );
 		angle = 0;
 		eye   = vec3 ( 7, 7, 7 );
@@ -44,7 +44,7 @@ public:
 	{
 		mat4	mv = getRotation ();
 		mat3	nm = normalMatrix ( mv );
-		
+
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		program.bind ();
@@ -54,23 +54,23 @@ public:
 		tex.bind ();
 		mesh -> render ();
 		tex.unbind ();
-		
+
 		program.unbind ();
 	}
 
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 20.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
 		program.setUniformVector ( "eye",   eye );
 		program.setUniformVector ( "light", light );
-		program.unbind ();  
+		program.unbind ();
 	}
 
 
@@ -94,11 +94,11 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }
 

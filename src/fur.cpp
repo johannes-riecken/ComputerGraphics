@@ -1,5 +1,5 @@
 //
-// Lighting example 
+// Lighting example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -23,19 +23,19 @@ class	MyWindow : public GlutRotateWindow
 	vec3		light;
 	int			numLayers;
 	float		angle;
-	
+
 public:
 	MyWindow () : GlutRotateWindow ( 200, 200, 600, 600, "Fur rendering" )
 	{
 		furMap.load2D ( "Textures/fur-map-00.png" );
-		
+
 		if ( !program.loadProgram ( "fur.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "furMap", 0 );
 		program.unbind ();
@@ -46,20 +46,20 @@ public:
 		numLayers = 20;
 		angle     = 0;
 	}
-	
+
 	void redisplay ()
 	{
 		mat4	mv = getRotation ();
 		mat3	nm = normalMatrix ( mv );
-		
+
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		float	shadowMin = 0.2;
 		float	shadowMax = 0.5;
-		
+
 		glEnable           ( GL_BLEND );
 		glBlendFunc        ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-		
+
 		furMap.bind ();
 		program.bind ();
 		program.setUniformMatrix ( "mv",  mv );
@@ -75,26 +75,26 @@ public:
 
 			mesh -> render ();
 		}
-		
+
 		program.unbind ();
 		furMap.unbind ();
-		
+
 		glDisable ( GL_BLEND );
 	}
 
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 20.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
 		program.setUniformVector ( "eye",   eye );
 		program.setUniformVector ( "light", light );
-		program.unbind ();  
+		program.unbind ();
 	}
 
 	void	idel ()
@@ -116,11 +116,11 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }
 

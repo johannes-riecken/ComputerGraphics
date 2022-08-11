@@ -114,7 +114,7 @@ bool	BmpDecoder :: loadMono ( Data * data, TexImage * tex, dword * buf, dword pa
 
 		tex -> putLine ( height - 1 - y, buf );
 	}
-		
+
 	delete ptr;
 
     return true;

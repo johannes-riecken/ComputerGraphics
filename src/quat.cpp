@@ -175,29 +175,29 @@ quat&	quat :: initWithAngles ( float yaw, float pitch, float roll )
 void quat :: getMatrix ( mat4& m ) const
 {
 	float * matrix = (float *) m.data ();
-	
+
 		// 1st row
-	matrix [ 0] = 1.0f - 2.0f * ( y * y + z * z );  
-	matrix [ 1] = 2.0f * ( x * y - w * z );  
-	matrix [ 2] = 2.0f * ( x * z + w * y );  
-	matrix [ 3] = 0.0f;  
+	matrix [ 0] = 1.0f - 2.0f * ( y * y + z * z );
+	matrix [ 1] = 2.0f * ( x * y - w * z );
+	matrix [ 2] = 2.0f * ( x * z + w * y );
+	matrix [ 3] = 0.0f;
 
 		// 2nd row
-	matrix [ 4] = 2.0f * ( x * y + w * z );  
-	matrix [ 5] = 1.0f - 2.0f * ( x * x + z * z );  
-	matrix [ 6] = 2.0f * ( y * z - w * x );  
-	matrix [ 7] = 0.0f;  
+	matrix [ 4] = 2.0f * ( x * y + w * z );
+	matrix [ 5] = 1.0f - 2.0f * ( x * x + z * z );
+	matrix [ 6] = 2.0f * ( y * z - w * x );
+	matrix [ 7] = 0.0f;
 
 		// 3rd row
-	matrix [ 8] = 2.0f * ( x * z - w * y );  
-	matrix [ 9] = 2.0f * ( y * z + w * x );  
-	matrix [10] = 1.0f - 2.0f * ( x * x + y * y );  
-	matrix [11] = 0.0f;  
+	matrix [ 8] = 2.0f * ( x * z - w * y );
+	matrix [ 9] = 2.0f * ( y * z + w * x );
+	matrix [10] = 1.0f - 2.0f * ( x * x + y * y );
+	matrix [11] = 0.0f;
 
 		// 4th row
-	matrix [12] = 0;  
-	matrix [13] = 0;  
-	matrix [14] = 0;  
+	matrix [12] = 0;
+	matrix [13] = 0;
+	matrix [14] = 0;
 	matrix [15] = 1;
 }
 
@@ -222,26 +222,26 @@ void	quat :: getMatrix ( mat3& m ) const
 quat	quat :: exp () const
 {
 	float t = sqrtf ( x * x + y * y + z * z );		// v.length ();
-	
+
 	if ( t < EPS )
 		return quat ( 0, 0, 0, expf ( w ) );
-		
+
 	float	s = sinf ( t ) / t;
 	float	c = cosf ( t );
-	
+
 	return expf ( w ) * quat ( s * x, s * y, s* z, c );
 }
 
 quat	quat :: log () const
 {
 	float l    = length ();
-	
+
 	if ( l < EPS )
 		return quat ( 0, 0, 0, 0 );			// some error
-		
+
 	float a = (float)acos ( w / l );
 	float s = sinf ( a );
-	
+
 	return quat ( x * s, y * s, z * s, logf ( l ) );
 }
 
@@ -257,7 +257,7 @@ quat	slerp ( const quat& q1, const quat& q2, float t )
 		{
 			float	omega   = (float) acos ( d );
 			float	invSine = 1.0f / (float) sin ( omega );
-			
+
 			scale1  = invSine * (float) sin ( ( 1.0f - t ) * omega );
 			scale2  = invSine * (float) sin ( t * omega );
 		}
@@ -266,7 +266,7 @@ quat	slerp ( const quat& q1, const quat& q2, float t )
 			scale1 = 1.0f - t;
 			scale2 = t;
 		}
-		
+
 		return quat ( scale1 * q1.x + scale2 * q2.x,
 					  scale1 * q1.y + scale2 * q2.y,
 					  scale1 * q1.z + scale2 * q2.z,

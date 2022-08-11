@@ -26,17 +26,17 @@ public:
 	{
 		return x == v.x && y == v.y;
 	}
-	
+
 	bool	operator != ( const vec2& v ) const
 	{
 		return x != v.x || y != v.y;
 	}
-	
+
 	bool	equalWithTolerance ( const vec2& v, float eps = EPS )
 	{
 		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps;
 	}
-	
+
 	vec2& operator = ( const vec2& v )
 	{
 		x = v.x;
@@ -170,23 +170,23 @@ public:
 	static inline vec2 sum ( const vec2 * v, int n )
 	{
 		vec2	s ( 0.0f );
-		
+
 		for ( int i = 0; i < n; i++ )
 			s += v [i];
-			
+
 		return s;
 	}
-	
+
 	static inline vec2 ave ( const vec2 * v, int n )
 	{
 		vec2	s ( 0.0f );
-		
+
 		for ( int i = 0; i < n; i++ )
 			s += v [i];
-			
+
 		return vec2 ( s.x / n, s.y / n );
 	}
-	
+
 	friend vec2 operator + ( const vec2&, const vec2& );
 	friend vec2 operator - ( const vec2&, const vec2& );
 	friend vec2 operator * ( const vec2&, const vec2& );

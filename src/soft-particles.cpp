@@ -1,5 +1,5 @@
 //
-// Soft particles example 
+// Soft particles example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -48,26 +48,26 @@ public:
 		if ( !program.loadProgram ( "decal.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "image", 0 );
 		program.unbind ();
-		
+
 		if ( !program2.loadProgram ( "soft-particles.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program2.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program2.bind ();
 		program2.setTexture ( "depthMap", 0 );
 		program2.setTexture ( "particleMap", 1 );
 		program2.unbind ();
-		
+
 		box1 = createBox  ( vec3 ( -6, -0.1, -6 ), vec3 ( 12, 3, 12 ) );
 		box2 = createBox  ( vec3 ( -1.5, 0, -0.5 ),  vec3 ( 1,  2,  2 ) );
 		box3 = createBox  ( vec3 ( 1.5, 0, -0.5 ),  vec3 ( 1,  1,  1 ) );
@@ -77,7 +77,7 @@ public:
 		stoneMap.load2D ( "Textures/block.jpg" );
 		knotMap.load2D  ( "Textures/Oxidated.jpg" );
 		smoke.load2D    ( "Textures/maskSmoke.bmp" );
-		
+
 		depthMap.createDepthRect ( 640, 480 );
 		camera.setRightHanded ( false );
 
@@ -99,9 +99,9 @@ public:
 		program.bind ();
 		program.setUniformMatrix ( "proj",  proj );
 		program.setUniformMatrix ( "mv",    mv   );
-		
+
 		displayBoxes ();
-		
+
 		program.unbind ();
 		glFinish ();
 
@@ -120,27 +120,27 @@ public:
 		program2.setUniformVector ( "right", camera.getSideDir () );
 
 		particles -> render ();
-		
+
 		program2.unbind ();
-		
+
 		depthMap.unbind ();
 		smoke.unbind ();
-		
+
 		glDepthMask ( GL_TRUE );
 	}
-	
+
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-	
+
 		camera.setViewSize ( w, h, 60 );
 	}
-	
+
     void	keyTyped ( unsigned char key, int modifiers, int x, int y )
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )	//	quit requested
 			exit ( 0 );
-			
+
 		if ( key == 'w' || key == 'W' )
 			camera.moveBy ( camera.getViewDir () * 0.2 );
 		else
@@ -200,14 +200,14 @@ public:
     void mouseWheel ( int wheel, int dir, int x, int y )
 	{
 		eye += 0.5 * vec3 ( dir, dir, dir );
-		
+
 					// since eye value has changed
 		reshape ( getWidth(), getHeight() );
-		
+
 		glutPostRedisplay ();
 	}
 
-private:	
+private:
 	void displayBoxes ()
 	{
 		decalMap.bind ();
@@ -219,13 +219,13 @@ private:
 		stoneMap.unbind ();
 
 		mat4 m = mv * mat4::translate ( vec3 ( 2, 1, 1 ) ) * mat4::rotateX ( angle * 0.3 ) * mat4::rotateY ( angle * 0.07 ) * mat4::scale( vec3(0.3));
-		
+
 		program.setUniformMatrix ( "mv",  m );
 
 		knotMap.bind ();
-		
+
 		knot -> render ();
-		
+
 		knotMap.unbind ();
 	}
 
@@ -233,7 +233,7 @@ private:
 	{
 		BasicVertex * v = new BasicVertex [NUM_PARTICLES*4];
 		int         * ind = new int [6*NUM_PARTICLES];
-		
+
 		v [0].pos = vec3 ( 0, -0.5, 0 );
 		v [0].tex = vec2 ( 0, 0 );
 		v [1].pos = vec3 ( 0, -0.5, 0 );
@@ -242,7 +242,7 @@ private:
 		v [2].tex = vec2 ( 1, 1 );
 		v [3].pos = vec3 ( 0, -0.5, 0 );
 		v [3].tex = vec2 ( 0, 1 );
-		
+
 		v [4].pos = vec3 ( -1, -0.5, 1 );
 		v [4].tex = vec2 ( 0, 0 );
 		v [5].pos = vec3 ( -1, -0.5, 1 );
@@ -251,7 +251,7 @@ private:
 		v [6].tex = vec2 ( 1, 1 );
 		v [7].pos = vec3 ( -1, -0.5, 1 );
 		v [7].tex = vec2 ( 0, 1 );
-		
+
 		v [8].pos = vec3 ( 2, 0, 0 );
 		v [8].tex = vec2 ( 0, 0 );
 		v [9].pos = vec3 ( 2, 0, 0 );
@@ -260,12 +260,12 @@ private:
 		v [10].tex = vec2 ( 1, 1 );
 		v [11].pos = vec3 ( 2, 0, 0 );
 		v [11].tex = vec2 ( 0, 1 );
-		
+
 		for ( int i = 0; i < NUM_PARTICLES; i++ )
 		{
 			int	k = 6*i;
 			int j = 4*i;
-			
+
 			ind [k  ] = j;
 			ind [k+1] = j + 1;
 			ind [k+2] = j+2;
@@ -273,9 +273,9 @@ private:
 			ind [k+4] = j + 2;
 			ind [k+5] = j + 3;
 		}
-		
+
 		particles = new BasicMesh ( v, ind, 4*NUM_PARTICLES, 2*NUM_PARTICLES );
-		
+
 		delete v;
 		delete ind;
 	}
@@ -283,22 +283,22 @@ private:
 	void	displayParticle ( const vec3& pos, float r )
 	{
 		glMultiTexCoord4f ( GL_TEXTURE1_ARB, pos.x, pos.y, pos.z, r );
-		
+
 														// now setup particle
 		glBegin ( GL_QUADS );
-		
+
 		glMultiTexCoord2f ( GL_TEXTURE0_ARB, 0, 0 );
 		glVertex3fv  ( pos );
-		
+
 		glMultiTexCoord2f ( GL_TEXTURE0_ARB, 0, 1 );
 		glVertex3fv  ( pos );
-		
+
 		glMultiTexCoord2f ( GL_TEXTURE0_ARB, 1, 1 );
 		glVertex3fv  ( pos );
-		
+
 		glMultiTexCoord2f ( GL_TEXTURE0_ARB, 1, 0 );
 		glVertex3fv  ( pos );
-		
+
 		glEnd ();
 	}
 };
@@ -306,10 +306,10 @@ private:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

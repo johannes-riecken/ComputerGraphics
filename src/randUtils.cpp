@@ -23,8 +23,8 @@ float	randGauss ( float m, float sigma )
   // Algorithm by Dr. Everett (Skip) Carter, Jr.
 
 	float x1, x2, w;
- 
-	do 
+
+	do
 	{
 		x1 = randUniform ( -1, 1 );
 		x2 = randUniform ( -1, 1 );
@@ -43,7 +43,7 @@ float	randPoisson ( float lambda )
 	float p = 1.0;
 	int k = 0;
 
-	do 
+	do
 	{
 		k++;
 		p *= randUniform ();

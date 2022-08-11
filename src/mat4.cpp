@@ -118,7 +118,7 @@ mat4 :: mat4 ( float a0,  float a1,  float a2,  float a3,		// first row
 mat4& mat4 :: operator = ( const mat4& a )
 {
 	memcpy ( m, a.m, sizeof ( m ) );
-	
+
 	return *this;
 }
 
@@ -166,52 +166,52 @@ void mat4 :: toGl ( float * a )
 
 mat4& mat4 :: operator += ( const mat4& a )
 {
-	m [ 0] += a.m [ 0]; 
-	m [ 1] += a.m [ 1]; 
-	m [ 2] += a.m [ 2]; 
+	m [ 0] += a.m [ 0];
+	m [ 1] += a.m [ 1];
+	m [ 2] += a.m [ 2];
 	m [ 3] += a.m [ 3];
-	m [ 4] += a.m [ 4]; 
-	m [ 5] += a.m [ 5]; 
-	m [ 6] += a.m [ 6]; 
+	m [ 4] += a.m [ 4];
+	m [ 5] += a.m [ 5];
+	m [ 6] += a.m [ 6];
 	m [ 7] += a.m [ 7];
-	m [ 8] += a.m [ 8]; 
-	m [ 9] += a.m [ 9]; 
-	m [10] += a.m [10]; 
+	m [ 8] += a.m [ 8];
+	m [ 9] += a.m [ 9];
+	m [10] += a.m [10];
 	m [11] += a.m [11];
-	m [12] += a.m [12]; 
-	m [13] += a.m [13]; 
-	m [14] += a.m [14]; 
+	m [12] += a.m [12];
+	m [13] += a.m [13];
+	m [14] += a.m [14];
 	m [15] += a.m [15];
-	
+
 	return *this;
 }
 
 mat4& mat4 :: operator -= ( const mat4& a )
 {
-	m[ 0] -= a.m [ 0]; 
-	m[ 1] -= a.m [ 1]; 
-	m[ 2] -= a.m [ 2]; 
+	m[ 0] -= a.m [ 0];
+	m[ 1] -= a.m [ 1];
+	m[ 2] -= a.m [ 2];
 	m[ 3] -= a.m [ 3];
-	m[ 4] -= a.m [ 4]; 
-	m[ 5] -= a.m [ 5]; 
-	m[ 6] -= a.m [ 6]; 
+	m[ 4] -= a.m [ 4];
+	m[ 5] -= a.m [ 5];
+	m[ 6] -= a.m [ 6];
 	m[ 7] -= a.m [ 7];
-	m[ 8] -= a.m [ 8]; 
-	m[ 9] -= a.m [ 9]; 
-	m[10] -= a.m [10]; 
+	m[ 8] -= a.m [ 8];
+	m[ 9] -= a.m [ 9];
+	m[10] -= a.m [10];
 	m[11] -= a.m [11];
-	m[12] -= a.m [12]; 
-	m[13] -= a.m [13]; 
-	m[14] -= a.m [14]; 
+	m[12] -= a.m [12];
+	m[13] -= a.m [13];
+	m[14] -= a.m [14];
 	m[15] -= a.m [15];
-	
+
 	return *this;
 }
 
 mat4& mat4 :: operator *= ( const mat4& a )
 {
 	float	t [16];			// temp result
-	
+
 	t [ 0] = m [ 0] * a.m [ 0] + m [ 1] * a.m [ 4] + m [ 2] * a.m [ 8] + m [ 3] * a.m [12];
 	t [ 1] = m [ 0] * a.m [ 1] + m [ 1] * a.m [ 5] + m [ 2] * a.m [ 9] + m [ 3] * a.m [13],
 	t [ 2] = m [ 0] * a.m [ 2] + m [ 1] * a.m [ 6] + m [ 2] * a.m [10] + m [ 3] * a.m [14],
@@ -228,53 +228,53 @@ mat4& mat4 :: operator *= ( const mat4& a )
 	t [13] = m [12] * a.m [ 1] + m [13] * a.m [ 5] + m [14] * a.m [ 9] + m [15] * a.m [13],
 	t [14] = m [12] * a.m [ 2] + m [13] * a.m [ 6] + m [14] * a.m [10] + m [15] * a.m [14],
 	t [15] = m [12] * a.m [ 3] + m [13] * a.m [ 7] + m [14] * a.m [11] + m [15] * a.m [15];
-	
+
 	memcpy ( m, t, sizeof ( m ) );
-	
+
 	return *this;
 }
 
 mat4& mat4 :: operator *= ( float f )
 {
-	m [ 0] *= f; 
-	m [ 1] *= f; 
-	m [ 2] *= f; 
+	m [ 0] *= f;
+	m [ 1] *= f;
+	m [ 2] *= f;
 	m [ 3] *= f;
-	m [ 4] *= f; 
-	m [ 5] *= f; 
-	m [ 6] *= f; 
+	m [ 4] *= f;
+	m [ 5] *= f;
+	m [ 6] *= f;
 	m [ 7] *= f;
 	m [ 8] *= f;
-	m [ 9] *= f; 
-	m [10] *= f; 
+	m [ 9] *= f;
+	m [10] *= f;
 	m [11] *= f;
-	m [12] *= f; 
-	m [13] *= f; 
-	m [14] *= f; 
+	m [12] *= f;
+	m [13] *= f;
+	m [14] *= f;
 	m [15] *= f;
-	
+
 	return *this;
 }
 
 mat4& mat4 :: operator /= ( float f )
 {
-	m [ 0] /= f; 
-	m [ 1] /= f; 
-	m [ 2] /= f; 
+	m [ 0] /= f;
+	m [ 1] /= f;
+	m [ 2] /= f;
 	m [ 3] /= f;
-	m [ 4] /= f; 
-	m [ 5] /= f; 
-	m [ 6] /= f; 
-	m [ 7] /= f;	
-	m [ 8] /= f; 
-	m [ 9] /= f; 
-	m [10] /= f; 
+	m [ 4] /= f;
+	m [ 5] /= f;
+	m [ 6] /= f;
+	m [ 7] /= f;
+	m [ 8] /= f;
+	m [ 9] /= f;
+	m [10] /= f;
 	m [11] /= f;
-	m [12] /= f; 
-	m [13] /= f; 
-	m [14] /= f; 
+	m [12] /= f;
+	m [13] /= f;
+	m [14] /= f;
 	m [15] /= f;
-	
+
 	return *this;
 }
 
@@ -499,7 +499,7 @@ bool	mat4 :: invert ()
 /*
  * Another variant
  *
- 
+
 
 */
 	return true;
@@ -507,7 +507,7 @@ bool	mat4 :: invert ()
 
 float	mat4 :: det () const
 {
-	return 
+	return
 		(m [0] * m [5] - m [1] * m [4]) * (m [10] * m [15] - m [11] * m [14]) -
 		(m [0] * m [6] - m [2] * m [4]) * (m [9]  * m [15] - m [11] * m [13]) +
 		(m [0] * m [7] - m [3] * m [4]) * (m [9]  * m [14] - m [10] * m [13]) +
@@ -519,7 +519,7 @@ float	mat4 :: det () const
 mat4& mat4 :: transpose ( )
 {
 	float	t;
-	
+
 #define	SWAP(x, y)	t=x; x=y; y=t;
 
 	SWAP( m[1], m[4]   )
@@ -528,9 +528,9 @@ mat4& mat4 :: transpose ( )
 	SWAP( m[6], m[9]   )
 	SWAP( m[7], m[13]  )
 	SWAP( m[11], m[14] )
-	
+
 #undef SWAP
-	
+
 	return *this;
 }
 
@@ -651,7 +651,7 @@ mat4 mat4 :: rotateZ ( float angle )
 	float		sine   = (float)sin ( angle );
 
 	return mat4 ( cosine, sine,  0, 0,
-	              -sine,   cosine, 0, 0, 
+	              -sine,   cosine, 0, 0,
 				  0,      0,      1, 0,
 				  0,      0,      0, 1 );
 }
@@ -733,7 +733,7 @@ mat4 ortho ( float left, float right, float bottom, float top, float zNear, floa
 	float	tx  = (left + right) / (left - right);
 	float	ty  = (bottom + top) / (bottom - top);
 	float	tz  = (zNear + zFar) / (zNear - zFar);
-	
+
 	return mat4 ( m00, 0,   0,   tx,
 	              0,   m11, 0,   ty,
 				  0,   0,   m22, tz,
@@ -760,7 +760,7 @@ mat4 frustum ( float left, float right, float bottom, float top, float zNear, fl
 	float	b   = (top + bottom) / (top - bottom);
 	float	c   = (zNear + zFar) / (zNear - zFar);
 	float	d   = 2*zNear*zFar / ( zNear - zFar);
-	
+
 	return mat4 ( m00, 0,   a, 0,
 	              0,   m11, b, 0,
 				  0,   0,   c, d,
@@ -772,25 +772,25 @@ mat4 lookAt ( const vec3& eye, const vec3& center, const vec3& up )
 	vec3 f = normalize ( eye - center );
 	vec3 s = cross     ( normalize ( up ), f );
 	vec3 u = cross     ( f, s );
-	
+
 	mat4	m ( s.x,  s.y,  s.z, -dot(s, eye),
 	            u.x,  u.y,  u.z, -dot(u, eye),
 	            f.x,  f.y,  f.z, -dot(f, eye),
 	            0,    0,    0,   1 );
-				
+
 	return m;
 }
 
 mat3 normalMatrix ( const mat4& mv )
 {
 	mat4	m = mv;
-	
+
 	m.invert ();
-	
+
 	mat3	nm = m.upper3x3 ();
-	
+
 	nm.transpose ();
-	
+
 	return nm;
 }
 
@@ -807,7 +807,7 @@ vec3 eulerFromMatrix ( const mat4& m )
 	{
 		angle.y = atan2f ( data [6] / c, data [10] / c );
 		angle.z = atan2f ( data [1] / c, data [0]  / c );
-	} 
+	}
 	else
 	{
 		angle.y = 0.0f;
@@ -821,8 +821,8 @@ vec4	unproject ( const vec3& win, const mat4& mv, const mat4& proj, int viewport
 {
 	mat4	m = proj * mv;
 	vec4	v ( 2*(win.x - viewport [0]) / viewport[2] - 1, 2*(win.y - viewport [1])/viewport [3] - 1, 2*win.z - 1, 1 );
-	
+
 	m.invert ();
-	
+
 	return m * v;
 }

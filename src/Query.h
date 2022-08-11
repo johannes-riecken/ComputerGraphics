@@ -14,11 +14,11 @@ class Query
 {
 	GLuint	id;
 	GLenum	target;
-	
+
 								// disable copying
 	Query ( const Query& );
 	Query& operator = ( const Query& );
-	
+
 public:
 	Query ();
 	~Query ();

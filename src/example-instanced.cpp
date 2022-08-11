@@ -20,27 +20,27 @@ class	MeshWindow : public GlutRotateWindow
 	BasicMesh * mesh;
 	Texture		tex;
 	vec3		eye;
-	
+
 public:
 	MeshWindow () : GlutRotateWindow ( 200, 200, 600, 600, "Instanced reflecting toruses" )
 	{
 		string	texName = "Textures/Snow.dds";
-	
+
 		if ( !tex.loadCubemap ( texName.c_str () ) )
 		{
 			printf ( "Error loading texture %s\n", texName.c_str () );
 			exit   ( 1 );
 		}
-		
+
 		if ( !program.loadProgram ( "rotate-7.glsl" ) )
 		{
 			printf ( "Error building program: %s\n", program.getLog ().c_str () );
 			exit   ( 2 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "image", 0 );
-		
+
 		mesh = createTorus ( 2, 4, 30, 30  );
 		eye  = vec3 ( 17, 17, 17 );
 	}
@@ -51,7 +51,7 @@ public:
 
 		mat4	mv = getRotation ();
 		mat3	nm = normalMatrix ( mv );
-	
+
 		tex.bind ();
 		program.bind ();
 		program.setUniformMatrix ( "mv",  mv );
@@ -59,7 +59,7 @@ public:
 		program.setUniformVector ( "eye", eye );
 
 		mesh -> renderInstanced ( 100 );
-		
+
 		program.unbind ();
 		tex.unbind ();
 	}
@@ -67,14 +67,14 @@ public:
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 60.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
-		program.unbind ();  
+		program.unbind ();
 	}
 
 };
@@ -82,10 +82,10 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MeshWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

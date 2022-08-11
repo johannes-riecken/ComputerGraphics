@@ -4,7 +4,7 @@
 Query :: Query ()
 {
 	target = 0;
-	
+
 	glGenQueries ( 1, &id );
 }
 

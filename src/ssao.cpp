@@ -1,5 +1,5 @@
 //
-// SSAO example 
+// SSAO example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -51,34 +51,34 @@ public:
 		decalMap.load2D  ( "Textures/oak.jpg" );
 		rotateMap.load2D ( "Textures/rotate.bmp" );
 		depthMap.createDepthRect ( 640, 480 );
-		
+
 		fb.create ();
 		fb.bind   ();
 		fb.attachColorTexture ( fb.createColorTexture () );
-		
+
 		if ( !fb.isOk () )
 			printf ( "Error with fb\n" );
-			
+
 		fb.unbind ();
 
 		if ( !program.loadProgram ( "decal.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "image", 0 );
 		program.unbind ();
-		
+
 		if ( !program2.loadProgram ( "ssao.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program2.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program2.bind            ();
 		program2.setTexture      ( "depthMap",  0 );
 		program2.setTexture      ( "rotateMap", 1 );
@@ -87,7 +87,7 @@ public:
 		camera.setRightHanded ( false );
 
 		buildBoxes ( 200 );
-		
+
 		yaw   = 0;
 		pitch = 0;
 		roll  = 0;
@@ -95,7 +95,7 @@ public:
 
 		//int     mouseOldX = 0;
 		//int     mouseOldY = 0;
-		//vec3	rot   ( 0.0f );		
+		//vec3	rot   ( 0.0f );
 	}
 
 	void redisplay ()
@@ -105,23 +105,23 @@ public:
 
 		mat4 proj = camera.getProjection ();
 		mat4 mv   = camera.getModelview ();
-		
+
 		program.bind ();
 		decalMap.bind ();
 
 		program.setUniformMatrix ( "proj", proj );
 		program.setUniformMatrix ( "mv",   mv   );
-		
+
 		displayBoxes ();
-		
+
 		decalMap.unbind ();
 		program.unbind ();
 
 		glFinish ();
-		
+
 		rotateMap.bind ( 1 );
 		depthMap.bind  ( 0 );
-		
+
 		glCopyTexImage2D ( depthMap.getTarget (), 0, GL_DEPTH_COMPONENT, 0, 0, depthMap.getWidth (), depthMap.getHeight (), 0 );
 
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -130,20 +130,20 @@ public:
 		program2.setUniformMatrix ( "mv",   mv   );
 
 		quad.render ();
-		
+
 		program2.unbind ();
-		
+
 		depthMap.unbind ();
 		rotateMap.unbind ();
 	}
-	
+
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		camera.setViewSize ( w, h, 60 );
 	}
-	
+
     void	keyTyped ( unsigned char key, int modifiers, int x, int y )
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )        // quit requested
@@ -211,14 +211,14 @@ public:
 		glutPostRedisplay ();
 	}
 
-private:	
+private:
 	void	buildBoxes ( int numBoxes )
 	{
 		vec3  org ( -5, -1, -5 );
 		vec3  sz  ( 1, 1, 1 );
 		float w1 = 10;
 		float w2 = 10;
-		
+
 		boxes.push_back ( createBox ( org, vec3 ( 10, 3, 10 ) ) );
 
 		for ( int i = 0; i < numBoxes; i++ )
@@ -227,7 +227,7 @@ private:
 			vec3  r   ( vec3 :: getRandomVector () );
 			float a   ( randUniform ( 0, 180.0 ) );
 			mat4  m = mat4::translate ( pos ) * mat4::rotate ( r, a );
-			
+
 			boxes.push_back ( createBox ( vec3 :: zero, sz*randUniform ( 0.5, 1.0 ), &m ) );
 		}
 	}
@@ -242,10 +242,10 @@ private:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

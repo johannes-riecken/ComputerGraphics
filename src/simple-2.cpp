@@ -18,7 +18,7 @@
 #define	NUM_VERTICES	3
 #define	VERTEX_SIZE		(3*sizeof(float))
 
-static const float vertices [] = 
+static const float vertices [] =
 {
 	-1.0f, -1.0f, 0.0f,
 	 0.0f,  1.0f, 0.0f,
@@ -30,17 +30,17 @@ class	MyWindow : public GlutWindow
 	Program			program;
 	VertexArray		vao;
 	VertexBuffer	buf;
-	
+
 public:
 	MyWindow () : GlutWindow  ( 200, 200, 400, 400, "First GL 3.3 demo" )
 	{
 		if ( !program.loadProgram ( "simple.glsl" ) )
 		{
 			printf ( "Error building program: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 2 );
 		}
-		
+
 		program.bind ();
 		vao.create  ();
 		vao.bind    ();
@@ -58,18 +58,18 @@ public:
 	{
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-		vao.bind ();	
-		glDrawArrays ( GL_TRIANGLES, 0, NUM_VERTICES );		
+		vao.bind ();
+		glDrawArrays ( GL_TRIANGLES, 0, NUM_VERTICES );
 		vao.unbind ();
 	}
-	
+
 	virtual	void	reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
 	}
-	
+
     virtual void	keyTyped ( unsigned char key, int modifiers, int x, int y )
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )	//	quit requested
@@ -81,10 +81,10 @@ int main ( int argc, char * argv [] )
 {
 								// initialize glut
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

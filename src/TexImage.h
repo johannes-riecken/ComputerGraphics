@@ -32,21 +32,21 @@ protected:
     int     imageType;
 
     TexImage ( int theWidth, int theHeight, int theDepth, int theNumComponents );
-	
+
 public:
-	static TexImage * new2D                ( int w, int h, int components, int compType = typeByte ); 
+	static TexImage * new2D                ( int w, int h, int components, int compType = typeByte );
 	static TexImage * new2DCompressed      ( int w, int h, int format, int numLevels, int imageSize );
-	static TexImage * newCubemap           ( int w, int components, int compType = typeByte ); 
+	static TexImage * newCubemap           ( int w, int components, int compType = typeByte );
 	static TexImage * newCubemapCompressed ( int w, int format, int numLevels, int imageSize );
-	static TexImage * new3D                ( int w, int h, int d, int components, int compType = typeByte ); 
-	
+	static TexImage * new3D                ( int w, int h, int d, int components, int compType = typeByte );
+
     ~TexImage ();
 
 	bool	isOk () const
 	{
 		return width > 0 && height > 0 && depth > 0 && data != NULL;
 	}
-	
+
     int getWidth () const
     {
         return width;
@@ -61,12 +61,12 @@ public:
 	{
 		return depth;
 	}
-	
+
 	int	getImageType () const
 	{
 		return imageType;
 	}
-	
+
     int getNumComponents () const
     {
         return numComponents;
@@ -91,16 +91,16 @@ public:
 	{
 		return cubemap;
 	}
-	
+
 
     unsigned char  * imageData     ( int image = 0, int level = 0 ) const;
 	size_t	imageDataSize ( int image = 0, int level = 0 ) const;
 	GLenum	getGlType     () const;
-	
+
                                             // store 32-bit RGBA image into texture in a
                                             // specified line, used by loaders
 	void    putLine ( int y, dword * bits );
-	
+
 	enum	DataType
 	{
 		typeNone   = 0,
@@ -113,7 +113,7 @@ public:
 		typeInt16  = 7,
 		typeInt32  = 8
 	};
-	
+
 	enum	ImageType
 	{
 		imageNone    = 0,
@@ -122,7 +122,7 @@ public:
 		imageCubemap = 3
 							// XXX - arrays ???
 	};
-	
+
 protected:
 	static	size_t	typeSize                 ( int theType );
 	void			setFormatFromNumCompType ();

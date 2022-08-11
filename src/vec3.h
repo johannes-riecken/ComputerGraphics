@@ -27,22 +27,22 @@ public:
 	{
 		return x == v.x && y == v.y && z == v.z;
 	}
-	
+
 	bool	operator != ( const vec3& v ) const
 	{
 		return x != v.x || y != v.y || z != v.z;
 	}
-	
+
 	bool	equalWithTolerance ( const vec3& v, float eps = EPS )
 	{
 		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps && fabs ( z - v.z ) < eps;
 	}
-	
+
 	vec2	xy () const
 	{
 		return vec2 ( x, y );
 	}
-	
+
 	vec3& operator = ( const vec3& v )
 	{
 		x = v.x;
@@ -51,7 +51,7 @@ public:
 
 		return *this;
 	}
-	
+
 	vec3 operator - () const
 	{
 		return vec3 ( -x, -y, -z );
@@ -184,23 +184,23 @@ public:
 	static inline vec3 sum ( const vec3 * v, int n )
 	{
 		vec3	s ( 0.0f );
-		
+
 		for ( int i = 0; i < n; i++ )
 			s += v [i];
-			
+
 		return s;
 	}
-	
+
 	static inline vec3 ave ( const vec3 * v, int n )
 	{
 		vec3	s ( 0.0f );
-		
+
 		for ( int i = 0; i < n; i++ )
 			s += v [i];
-			
+
 		return vec3 ( s.x / n, s.y / n, s.z / n );
 	}
-	
+
     static	vec3	zero;
     static	vec3	one;
 

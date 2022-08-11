@@ -16,7 +16,7 @@ Frustum :: Frustum ()
 void	Frustum :: set ( const mat4& matrix )
 {
 	mat4	m ( matrix );
-	float * clip = m.transpose ().data ();									
+	float * clip = m.transpose ().data ();
 	vec3	n [6];							// now extract clip planes params:
 	float	d [6];
 											// right plane
@@ -61,7 +61,7 @@ void	Frustum :: set ( const mat4& matrix )
 		}
 
 		planes [i] = plane ( n [i], d [i] );
-	}	
+	}
 }
 
 bool	Frustum :: pointInFrustum ( const vec3& v ) const
@@ -78,6 +78,6 @@ bool	Frustum :: boxInFrustum ( const bbox& box ) const
 	for ( int i = 0; i < 6; i++ )
 		if ( box.classify ( planes [i] ) == IN_BACK )
 			return false;
-			
+
 	return true;
 }

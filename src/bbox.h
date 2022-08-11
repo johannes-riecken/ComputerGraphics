@@ -132,7 +132,7 @@ public:
 		maxPoint.y -= delta;
 		maxPoint.z -= delta;
 	}
-	
+
 	float volume () const
 	{
 		vec3	size = maxPoint - minPoint;

@@ -18,7 +18,7 @@ void	ScreenQuad :: render ()
 {
 	if ( vao.getId () == 0 )
 		createBuffers ();
-		
+
 	vao.bind     ();
 	glDrawArrays ( GL_TRIANGLE_STRIP, 0, 4 );
 	vao.unbind   ();
@@ -26,7 +26,7 @@ void	ScreenQuad :: render ()
 
 void	ScreenQuad :: createBuffers ()
 {
-	float vertices [] = 
+	float vertices [] =
 	{
 		-1,  1, 0, 1,
 		 1,  1, 1, 1,
@@ -39,23 +39,23 @@ void	ScreenQuad :: createBuffers ()
 		vertices [4*i + 2] *= sMax;
 		vertices [4*i + 3] *= tMax;
 	}
-	
+
 	vao.create  ();
 	vao.bind    ();
 	buf.create  ();
 	buf.bind    ( GL_ARRAY_BUFFER );
 	buf.setData ( 4 * 4 * sizeof ( float ), vertices, GL_STATIC_DRAW );
-	
+
 	glVertexAttribPointer ( 0, 						// index
 							4, 						// number of values per vertex
-							GL_FLOAT, 
+							GL_FLOAT,
 							GL_FALSE,
 							4 * sizeof ( float),	// stride (offset to next vertex data)
 							(const GLvoid*) 0 );
-		
+
 	glEnableVertexAttribArray ( 0 );
-	
+
 	buf.unbind  ();
-	vao.unbind  ();	
+	vao.unbind  ();
 }
 

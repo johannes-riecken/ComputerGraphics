@@ -53,7 +53,7 @@ Data * getFile ( const string& fileName )
     for ( list <FileSystem *> :: iterator it = fileSystems.begin (); it != fileSystems.end (); ++it )
         if ( ( data = (*it) -> getFile ( fileName ) ) != NULL )
             return data;
-			
+
     return NULL;
 }
 
@@ -108,7 +108,7 @@ TexImage * loadTexImage ( const string& fileName )
     string	   ext   = stringLower ( getExtension ( fileName ) );
 	Data     * data  = getFile ( fileName );
 	TexImage * image = NULL;
-	
+
     if ( data == NULL || data -> getLength () < 1 )
     {
         fprintf ( stderr, "Cannot load \"%s\"\n", fileName.c_str () );
@@ -127,12 +127,12 @@ TexImage * loadTexImage ( const string& fileName )
 	if ( !image -> isOk () )
 	{
         fprintf ( stderr, "Incorrect image %s !!!\n", fileName.c_str () );
-		
+
 		delete image;
-		
+
 		image = NULL;
 	}
-	
+
     delete data;
 
     return image;

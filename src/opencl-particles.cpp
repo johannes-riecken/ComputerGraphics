@@ -1,5 +1,5 @@
 //
-// OpenCL +  OpenGL particle animation example 
+// OpenCL +  OpenGL particle animation example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -118,7 +118,7 @@ public:
 	MeshWindow () : GlutRotateWindow ( 200, 200, 400, 400, "OpenCL particles" )
 	{
 		eye = vec3  ( 3, 3, 3 );
-		
+
 		if ( !program.loadProgram ( "opencl-particles.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
@@ -135,16 +135,16 @@ public:
 		velBuf.bind    ( GL_ARRAY_BUFFER );
 		velBuf.setData ( NUM_PARTICLES * sizeof ( vec3 ), v, GL_DYNAMIC_DRAW );
 		velBuf.unbind  ();
-		
+
 		initOpenCL ();
-		
+
 		cl_int err;
-		
+
 		pBuf  = clCreateFromGLBuffer( context, CL_MEM_READ_WRITE, posBuf.getId (), &err );
 
 		if ( err != CL_SUCCESS )
 			printf ( "Error\n" );
-			
+
 		vBuf  = clCreateFromGLBuffer( context, CL_MEM_READ_WRITE, velBuf.getId (), &err );
 
 		if ( err != CL_SUCCESS )
@@ -153,97 +153,97 @@ public:
 		vao.create ();
 		vao.bind   ();
 		posBuf.bind       ( GL_ARRAY_BUFFER );
-		posBuf.setAttrPtr ( 0, 3, sizeof ( vec3 ), (void *) 0 );	
+		posBuf.setAttrPtr ( 0, 3, sizeof ( vec3 ), (void *) 0 );
 		velBuf.bind       ( GL_ARRAY_BUFFER );
 		velBuf.setAttrPtr ( 1, 3, sizeof ( vec3 ), (void *) 0 );
 		vao.unbind     ();
 	}
-	
+
 	const char * loadFile ( const char * fileName )
 	{
 		printf ( "Loading %s\n", fileName );
 
 		FILE * file = fopen ( fileName, "rb" );
-		
+
 		if ( file == NULL )
 		{
 			printf ( "Error opening %s\n", fileName );
-			
+
 			return NULL;
 		}
 
 		fseek ( file, 0, SEEK_END );
-		
+
 		size_t	size = ftell ( file );
-		
+
 		if ( size < 1 )
 		{
 			fclose ( file );
 			printf ( "Error loading file %s\n", fileName );
-			
+
 			return NULL;
 		}
-		
+
 		char * buf = (char *) malloc ( size + 1 );
-		
+
 		fseek ( file, 0, SEEK_SET );
-		
+
 		if ( fread ( buf, 1, size, file ) != size )
 		{
 			fclose ( file );
 			free   ( buf  );
 			printf ( "Error loading file %s\n", fileName );
-			
+
 			return NULL;
 		}
 
 		fclose ( file );
-		
+
 		buf [size] = '\0';
-		
+
 		return buf;
 	}
 
 	void	initOpenCL ()
 	{
 		cl_int err = clGetPlatformIDs( 1, &platform, NULL );
-		
+
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "No OpenCL platform found.\n" );
-			
+
 			exit ( 1 );
 		}
-			
+
 		err = clGetDeviceIDs( platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL );
-		
+
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "No OpenCL device found.\n" );
-			
+
 			exit ( 1 );
 		}
-			
+
 
 #ifdef	_WIN32
 	cl_context_properties props [] =
 	{
-	  CL_GL_CONTEXT_KHR, 
+	  CL_GL_CONTEXT_KHR,
 		(cl_context_properties) wglGetCurrentContext(),
-	  CL_WGL_HDC_KHR, 
+	  CL_WGL_HDC_KHR,
 		(cl_context_properties) wglGetCurrentDC(),
-	  CL_CONTEXT_PLATFORM, 
+	  CL_CONTEXT_PLATFORM,
 		(cl_context_properties) platform,
 	  0      // terminator
 	};
 #else
 	cl_context_properties props [] =
 	{
-	  CL_GL_CONTEXT_KHR, 
+	  CL_GL_CONTEXT_KHR,
 		(cl_context_properties) glXGetCurrentContext(),
-	  CL_GLX_DISPLAY_KHR, 
+	  CL_GLX_DISPLAY_KHR,
 		(cl_context_properties) glXGetCurrentDisplay(),
-	  CL_CONTEXT_PLATFORM, 
+	  CL_CONTEXT_PLATFORM,
 		(cl_context_properties) platform,
 	  0      // terminator
 	};
@@ -254,74 +254,74 @@ public:
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "Error creating OpenCL context.\n" );
-			
+
 			exit ( 1 );
 		}
-		
+
 
 		queue = clCreateCommandQueue ( context, device, NULL, &err );
-		
+
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "Error creating OpenCL command queue.\n" );
-			
+
 			exit ( 1 );
 		}
 
 		const char * source = loadFile( "particles.cl" );
-		
+
 		if ( source == NULL )
 		{
 			printf ( "Error loading kernel source.\n" );
-			
+
 			exit ( 1 );
 		}
 
 		prog = clCreateProgramWithSource( context, 1, &source, NULL, &err );
-		
+
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "Error creating OpenCL program.\n" );
-			
+
 			exit ( 1 );
 		}
 
 		if ( clBuildProgram( prog, 1, &device, NULL, NULL, NULL ) != CL_SUCCESS )
 		{
 			size_t	logSize;
-			
+
 			clGetProgramBuildInfo( prog, device, CL_PROGRAM_BUILD_LOG, 0, NULL, &logSize );
-			
+
 			char * str = new char [logSize + 1];
-			
+
 			clGetProgramBuildInfo( prog, device, CL_PROGRAM_BUILD_LOG, logSize, str, NULL );
-			
+
 			printf ( "Error building program:\n%s\n", str );
-			
+
 			delete str;
-			
+
 			exit ( 1 );
 		}
-		
+
 		kernel = clCreateKernel( prog, "animate", &err );
-		
+
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "Error creating OpenCL kernel.\n" );
-			
+
 			exit ( 1 );
 		}
 	}
-	
+
 	void	doOpenCL ( float dt )
 	{
 		int    n          = NUM_PARTICLES;
 		size_t localSize  = 512;			// work-items per work-group
 		size_t globalSize = n;				// total work-items
 		cl_int err;
-		
+
 		glFinish ();
-		
+
 		clEnqueueAcquireGLObjects( queue, 1, &pBuf, 0, NULL, NULL );
 		clEnqueueAcquireGLObjects( queue, 1, &vBuf, 0, NULL, NULL );
 
@@ -335,13 +335,13 @@ public:
 		if ( err != CL_SUCCESS )
 		{
 			printf ( "Error launcing OpenCL kernel (%d - %s).\n", err, oclErrorString (err) );
-			
+
 			exit ( 1 );
 		}
 
 		clEnqueueReleaseGLObjects( queue, 1, &pBuf, 0, NULL, NULL );
 		clEnqueueReleaseGLObjects( queue, 1, &vBuf, 0, NULL, NULL );
-		
+
 		clFinish ( queue );
 	}
 
@@ -357,11 +357,11 @@ public:
 	void redisplay ()
 	{
 		static float lastTime = 0;
-		
+
 		float t  = 0.001f * glutGet ( GLUT_ELAPSED_TIME );
 
 		doOpenCL ( lastTime - t );
-		
+
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		mat4	mv = getRotation ();
@@ -371,7 +371,7 @@ public:
 		vao.bind ();
 
 		glDrawArrays ( GL_POINTS, 0, NUM_PARTICLES );
-		
+
 		vao.unbind ();
 		program.unbind ();
 
@@ -381,23 +381,23 @@ public:
 	void reshape ( int w, int h )
 	{
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 20.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 1, 0 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj",    proj );
-		program.unbind ();  
+		program.unbind ();
 	}
 };
 
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MeshWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }
 

@@ -21,7 +21,7 @@ float quarticEaseInOut     ( float t, float start, float end );
 float quinticEaseOut       ( float t, float start, float end );
 float quinticEaseIn        ( float t, float start, float end );
 float quinticEaseInOut     ( float t, float start, float end );
-float sinusoidalEaseOut    ( float t, float start, float end ); 
+float sinusoidalEaseOut    ( float t, float start, float end );
 float sinusoidalEaseIn     ( float t, float start, float end );
 float sinusoidalEaseInOut  ( float t, float start, float end );
 float exponentialEaseOut   ( float t, float start, float end );

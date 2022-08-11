@@ -1,5 +1,5 @@
 //
-// Depth of field example 
+// Depth of field example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -40,62 +40,62 @@ class	MyWindow : public GlutWindow
 	float		focalRange;
 	float		yaw, pitch, roll;
 	float		angle;
-	
+
 public:
-	MyWindow () : GlutWindow ( 200, 200, 640, 480, "Depth of field" ) 
+	MyWindow () : GlutWindow ( 200, 200, 640, 480, "Depth of field" )
 	{
 		fb.create ();
 		fb.bind   ();
 		fb.attachColorTexture ( fb.createColorTexture () );
-		
+
 		if ( !fb.isOk () )
 			printf ( "Error with fb\n" );
-			
+
 		fb.unbind ();
-		
+
 		fb2.create ();
 		fb2.bind   ();
 		fb2.attachColorTexture ( fb2.createColorTexture () );
-		
+
 		if ( !fb2.isOk () )
 			printf ( "Error with fb2\n" );
-			
+
 		fb2.unbind ();
-		
+
 		if ( !program.loadProgram ( "dof-1.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "imageMap", 0 );
 		program.unbind ();
-		
+
 		if ( !program2.loadProgram ( "dof-2.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program2.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program2.bind ();
 		program2.setTexture ( "inputMap", 0 );
 		program2.setTexture ( "inputLowMap", 1 );
 		program2.unbind ();
-		
+
 		if ( !program3.loadProgram ( "dof-downsample.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program3.getLog ().c_str () );
-			
+
 			exit ( 1 );;
 		}
-		
+
 		program3.bind ();
 		program3.setTexture ( "inputMap", 0 );
 		program3.unbind ();
-		
+
 		box1 = createBox  ( vec3 ( -6, -0.1, -6 ), vec3 ( 12, 3, 12 ) );  // stoneMap, false
 		box2 = createBox  ( vec3 ( -1.5, 0, -0.5 ),  vec3 ( 1,  2,  2 ) );  // decalMap, false );
 		box3 = createBox  ( vec3 ( 1.5, 0, -0.5 ),  vec3 ( 1,  1,  1 ) );  // decalMap, false );
@@ -106,7 +106,7 @@ public:
 		decalMap.load2D ( "Textures/oak.jpg" );
 		stoneMap.load2D ( "Textures/block.jpg" );
 		knotMap.load2D  ( "Textures/Oxidated.jpg" );
-		
+
 		camera.setRightHanded ( false );
 
 		focalDistance = 4.5;
@@ -116,7 +116,7 @@ public:
 		roll          = 0;
 		angle         = 0;
 
-		printf ( "Depth of Field demo.\n\tUse + and - to change focal distance.\n\tUse * and / to change focal range.\n\tUse mouse and wsad to control camera.\n" );	
+		printf ( "Depth of Field demo.\n\tUse + and - to change focal distance.\n\tUse * and / to change focal range.\n\tUse mouse and wsad to control camera.\n" );
 	}
 
 	void redisplay ()
@@ -129,18 +129,18 @@ public:
 		program.setUniformMatrix ( "mv",    camera.getModelview  () );
 		program.setUniformFloat ( "focalDistance", focalDistance );
 		program.setUniformFloat ( "focalRange",    focalRange    );
-		
+
 		displayBoxes ();
-		
+
 		program.unbind ();
 		glFinish ();
-		
+
 		fb.unbind ();
 
 		glClear ( GL_COLOR_BUFFER_BIT );
-		
+
 		fb.getColorBuffer () -> bind ();
-		
+
 		fb2.bind ();
 		program3.bind ();
 		quad2.render ();
@@ -151,13 +151,13 @@ public:
 
 		fb.getColorBuffer () -> bind ();
 		fb2.getColorBuffer () -> bind ( 1 );
-		
+
 		program2.bind ();
-		
+
 		quad.render ();
 
 		program2.unbind ();
-		
+
 		fb2.getColorBuffer () -> unbind ();
 		fb.getColorBuffer () -> unbind ();
 	}
@@ -165,7 +165,7 @@ public:
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		camera.setViewSize ( w, h, 60 );
 	}
 
@@ -173,7 +173,7 @@ public:
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )	//	quit requested
 			exit ( 0 );
-			
+
 		if ( key == 'w' || key == 'W' )
 			camera.moveBy ( camera.getViewDir () * 0.2 );
 		else
@@ -244,7 +244,7 @@ public:
 		eye += 0.5 * vec3 ( dir, dir, dir );
 
 		reshape ( glutGet ( GLUT_WINDOW_WIDTH ), glutGet ( GLUT_WINDOW_HEIGHT ) );
-	
+
 		glutPostRedisplay ();
 	}
 
@@ -269,13 +269,13 @@ protected:
 		stoneMap.unbind ();
 
 		mat4 m = camera.getModelview () * mat4::translate ( vec3 ( 2, 1, 1 ) ) * mat4::rotateX ( angle * 0.3 ) * mat4::rotateY ( angle * 0.07 ) * mat4::scale( vec3(0.3));
-		
+
 		program.setUniformMatrix ( "mv",  m );
 
 		knotMap.bind ();
-		
+
 		knot -> render ();
-		
+
 		knotMap.unbind ();
 	}
 
@@ -284,10 +284,10 @@ protected:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

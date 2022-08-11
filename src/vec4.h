@@ -29,27 +29,27 @@ public:
 	{
 		return x == v.x && y == v.y && z == v.z && w == v.w;
 	}
-	
+
 	bool	operator != ( const vec4& v ) const
 	{
 		return x != v.x || y != v.y || z != v.z || w != v.w;
 	}
-	
+
 	bool	equalWithTolerance ( const vec4& v, float eps = EPS )
 	{
 		return fabs ( x - v.x ) < eps && fabs ( y - v.y ) < eps && fabs ( z - v.z ) < eps && fabs ( w - v.w ) < eps;
 	}
-	
+
 	vec3	xyz () const
 	{
 		return vec3 ( x, y, z );
 	}
-	
+
 	vec2	xy () const
 	{
 		return vec2 ( x, y );
 	}
-	
+
 	vec4& operator = ( const vec4& v )
 	{
 		x = v.x;
@@ -59,7 +59,7 @@ public:
 
 		return *this;
 	}
-	
+
 	vec4 operator - () const
 	{
 		return vec4 ( -x, -y, -z, -w );
@@ -187,13 +187,13 @@ public:
 
 	static	inline	vec4 vmin ( const vec4& v1, const vec4& v2 )
 	{
-		return vec4 ( v1.x < v2.x ? v1.x : v2.x, v1.y < v2.y ? v1.y : v2.y, 
+		return vec4 ( v1.x < v2.x ? v1.x : v2.x, v1.y < v2.y ? v1.y : v2.y,
 		              v1.z < v2.z ? v1.z : v2.z, v1.w < v2.w ? v1.w : v2.w );
 	}
 
 	static	inline	vec4 vmax ( const vec4& v1, const vec4& v2 )
 	{
-		return vec4 ( v1.x > v2.x ? v1.x : v2.x, v1.y > v2.y ? v1.y : v2.y, 
+		return vec4 ( v1.x > v2.x ? v1.x : v2.x, v1.y > v2.y ? v1.y : v2.y,
 					  v1.z > v2.z ? v1.z : v2.z, v1.w > v2.w ? v1.w : v2.w );
 	}
 

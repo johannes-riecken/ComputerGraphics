@@ -14,11 +14,11 @@
 #include	<stdlib.h>
 #include	<string.h>
 
-#define	PATCH_SIZE		16							// 16 control points 
+#define	PATCH_SIZE		16							// 16 control points
 #define	VERTEX_SIZE		(3*sizeof(float))
 #define	NUM_VERTICES	(PATCH_SIZE)
 
-static const float vertices [PATCH_SIZE * 3] = 
+static const float vertices [PATCH_SIZE * 3] =
 {
    -2.0f, -2.0f, 0.0f, 			// P00*
    -1.0f, -2.0f, 1.0f, 			// P10
@@ -46,7 +46,7 @@ class	MeshWindow : public GlutRotateWindow
 	VertexBuffer buf;
 	VertexArray  vao;
 	Program      program;
-	
+
 public:
 	MeshWindow () : GlutRotateWindow ( 200, 200, 400, 400, 	"Bezier tesselation demo" )
 	{
@@ -59,7 +59,7 @@ public:
 		inner = 2;
 		outer = 2;
 		eye   = vec3 ( 3, 3, 4 );
-		
+
 		program.bind ();
 
 		vao.create ();
@@ -76,7 +76,7 @@ public:
 
 		printf ( "Use + and to change inner tessellation level, * and / to change outer level\n" );
 	}
-	
+
 	void updateCaption ()
 	{
 		char str [128];
@@ -91,7 +91,7 @@ public:
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		mat4	mv = getRotation ();
-		
+
 		program.bind ();
 		program.setUniformMatrix ( "mv", mv );
 		program.setUniformInt    ( "inner", inner );
@@ -108,12 +108,12 @@ public:
 	void reshape ( int w, int h )
 	{
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 20.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
-		program.unbind ();  
+		program.unbind ();
 	}
 
 
@@ -121,19 +121,19 @@ public:
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )	//	quit requested
 			exit ( 0 );
-			
+
 		if ( key == '+' )
 			inner++;
 		else
 		if ( key == '-' && inner > 1 )
 			inner--;
-			
+
 		if ( key == '*' )
 			outer++;
 		else
 		if ( key == '/' && outer > 1)
 			outer--;
-			
+
 		if ( key == '+' || key == '-' || key == '/' || key == '*' )
 			updateCaption ();
 
@@ -144,10 +144,10 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv, 4, 1 );
-	
+
 	MeshWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

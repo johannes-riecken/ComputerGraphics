@@ -18,7 +18,7 @@ Camera :: Camera ( const vec3& p, float yaw, float pitch, float roll,
     fov         = aFov;
 	rightHanded = rHanded;
 	infinite    = false;
-	
+
 	setViewSize    ( 640, 480, aFov );
     setEulerAngles ( yaw, pitch, roll );
 }
@@ -114,17 +114,17 @@ void    Camera :: mirror ( const plane& mirror )		// XXX
 	vec3	vDir    = getViewDir ();
 	vec3	sideDir = getSideDir ();
 	vec3	upDir   = getUpDir   ();
-	
+
     mirror.reflectPos ( pos );
     mirror.reflectDir ( vDir );
     mirror.reflectDir ( upDir );
     mirror.reflectDir ( sideDir );
-	
+
 					// now build rotation matrix from vectors
 	mat3 r ( sideDir.x, upDir.x, -vDir.x,
 	         sideDir.y, upDir.y, -vDir.y,
 		     sideDir.z, upDir.z, -vDir.z );
-			 
+
 	rotation    = eulerFromMatrix ( r );
     rightHanded = !rightHanded;
 
@@ -139,7 +139,7 @@ void	Camera :: getPlanePolyForZ ( float z, vec3 * poly ) const
 	vec3	vDir    = getViewDir ();
 	vec3	sideDir = getSideDir ();
 	vec3	upDir   = getUpDir   ();
-	
+
 	poly [0] = pos + base.z * vDir - base.x * sideDir - base.y * upDir;
 	poly [1] = pos + base.z * vDir - base.x * sideDir + base.y * upDir;
 	poly [2] = pos + base.z * vDir + base.x * sideDir + base.y * upDir;

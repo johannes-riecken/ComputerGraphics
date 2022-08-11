@@ -35,7 +35,7 @@ public:
 	{
 		return file;
 	}
-	
+
 	bool	isEmpty () const
 	{
 		return pos >= length;

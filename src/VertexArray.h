@@ -12,37 +12,37 @@
 class	VertexArray
 {
 	GLuint	id;
-	
+
 								// disable copying
 	VertexArray ( const VertexArray& );
 	VertexArray& operator = ( const VertexArray& );
-	
+
 public:
 	VertexArray ()
 	{
 		id = 0;
 	}
-	
+
 	~VertexArray ()
 	{
 		destroy ();
 	}
-	
+
 	bool	isOk () const
 	{
 		return glIsVertexArray ( id );
 	}
-	
+
 	GLuint 	getId () const
 	{
 		return id;
 	}
-	
+
 	void	create ()
 	{
 		glGenVertexArrays ( 1, &id );
 	}
-	
+
 	void	destroy ()
 	{
 		if ( id != 0 )
@@ -55,7 +55,7 @@ public:
 	{
 		glBindVertexArray ( id );
 	}
-	
+
 	void	unbind ()
 	{
 		glBindVertexArray ( 0 );

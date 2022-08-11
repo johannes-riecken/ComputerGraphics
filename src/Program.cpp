@@ -38,13 +38,13 @@ Program :: ~Program ()
 bool	Program :: loadProgram ( const string& fileName )
 {
 	Data data ( fileName );
-	
+
 	if ( !data.isOk () || data.getLength () < 1 )
 	{
 		log += "Error loading shader from ";
 		log += fileName;
 		log += "\n";
-		
+
 		return false;
 	}
 
@@ -61,8 +61,8 @@ bool	Program :: loadProgram ( Data * data )
 		GLenum		 type;
 		int			 start, end;
 	};
-	
-	Chunk	info [] = 
+
+	Chunk	info [] =
 	{
 		{ "vertex",      GL_VERTEX_SHADER,       0, 0 },
 		{ "fragment",    GL_FRAGMENT_SHADER,     0, 0 },
@@ -70,11 +70,11 @@ bool	Program :: loadProgram ( Data * data )
 		{ "tesscontrol", GL_TESS_CONTROL_SHADER, 0, 0 },
 		{ "tesseval",    GL_TESS_EVALUATION_SHADER, 0, 0 }
 	};
-	
+
 	string	s;
 	int		start = 0, end = 0;
 	int		type = -1;
-	
+
 	log += "Started loading composite shader from ";
 	log += data -> getFileName ();
 	log += "\n";
@@ -88,19 +88,19 @@ bool	Program :: loadProgram ( Data * data )
 
 			continue;
 		}
-			
+
 		s = stringLower ( stringTrim ( s.substr ( 2 ) ) );
-		
+
 		if ( start < end && type != -1 )			// there is shader
 		{
 			info [type].start = start;
 			info [type].end   = end;
 		}
-		
+
 		start = data -> getPos ();
 		end   = start;
 		type  = -1;
-		
+
 		for ( size_t i = 0; i < sizeof ( info ) / sizeof ( info [0] ); i++ )
 			if ( s == info [i].name )
 			{
@@ -108,7 +108,7 @@ bool	Program :: loadProgram ( Data * data )
 				break;
 			}
 	}
-	
+
 	if ( start < end && type != -1 )				// process last shader
 	{
 		info [type].start = start;
@@ -116,24 +116,24 @@ bool	Program :: loadProgram ( Data * data )
 		start             = data -> getPos ();
 		end               = start;
 	}
-	
+
 						// now load all chunks
 	for ( size_t i = 0; i < sizeof ( info ) / sizeof ( info [0] ); i++ )
 		if ( info [i].start < info [i].end )
 		{
 			Data	d ( data -> getPtr ( info [i].start ), info [i].end - info [i].start );
-		
+
 			if ( !loadShaderOfType ( &d, info [i].type ) )
 				return false;
 		}
-	
+
 	return relink ();
 }
 
 bool	Program :: loadProgramFromString ( const string& source )
 {
 	Data	data ( (void *)source.c_str (), source.length () + 1 );		// XXX - m.b. strdup ?
-	
+
 	return loadProgram ( &data );
 }
 
@@ -163,22 +163,22 @@ bool    Program :: loadShader ( GLuint shader, Data * data )
 bool	Program :: loadShaderOfType ( const char * fileName, GLenum type )
 {
 	Data * data = new Data ( fileName );
-	
+
 	if ( !data -> isOk () || data -> getLength () < 1 )
 	{
 		log += "Error loading shader from ";
 		log += fileName;
 		log += "\n";
-		
+
 		delete data;
-		
+
 		return false;
 	}
-	
+
 	bool	result = loadShaderOfType ( data, type );
-	
+
 	delete data;
-	
+
 	return result;
 }
 
@@ -193,47 +193,47 @@ bool	Program :: loadShaderOfType ( Data * data, GLenum type )
         return false;
 
     GLuint	shader = glCreateShader ( type );
-	
+
 	switch ( type )
 	{
 		case GL_VERTEX_SHADER:
 			log += "Loading vertex shader.\n";
 			vertexShader = shader;
-			break;	
-			
+			break;
+
 		case GL_FRAGMENT_SHADER:
 			log += "Loading fragment shader.\n";
 			fragmentShader = shader;
-			break;	
-			
+			break;
+
 		case GL_GEOMETRY_SHADER:
 			log += "Loading geometry shader.\n";
 			geometryShader = shader;
-			break;	
-			
+			break;
+
 		case GL_TESS_CONTROL_SHADER:
 			log += "Loading tesselation control shader.\n";
 			tessControlShader = shader;
-			break;	
-			
+			break;
+
 		case GL_TESS_EVALUATION_SHADER:
 			log += "Loading tesselation evaluation shader.\n";
 			tessEvalShader = shader;
-			break;	
-					
+			break;
+
 		default:
 			log += "Unknown shader type.\n";
 			return false;
 	}
-	
+
 						// try to load and compile it
 	if ( !loadShader ( shader, data ) )
 		return false;
-		
+
 	glAttachShader ( program, shader );
 
 	linkRequired = true;
-	
+
 	return true;
 }
 
@@ -280,12 +280,12 @@ bool    Program :: loadShaders ( const char * vertexFileName, const char * fragm
 
     	fragmentData = NULL;
     }
-	
+
     bool	result = loadShaders ( vertexData, fragmentData );
 
 	if ( fragmentData == NULL && fragmentFileName != NULL )		// file was specified but failed to open
 		result = false;
-		
+
     delete vertexData;
     delete fragmentData;
 
@@ -299,7 +299,7 @@ bool    Program :: loadShaders ( Data * vertexShaderData, Data * fragmentShaderD
     if ( vertexShaderData != NULL )
     {
 	    log += "Loading vertex shader\n";
-		
+
 		if ( !loadShaderOfType ( vertexShaderData, GL_VERTEX_SHADER ) )
 			return false;
 	}
@@ -307,7 +307,7 @@ bool    Program :: loadShaders ( Data * vertexShaderData, Data * fragmentShaderD
     if ( fragmentShaderData != NULL )
     {
 	    log += "Loading fragment shader\n";
-		
+
 		if ( !loadShaderOfType ( fragmentShaderData, GL_FRAGMENT_SHADER ) )
 			return false;
     }
@@ -320,28 +320,28 @@ bool	Program :: loadSeparate ( GLenum type, Data * data )
 	if ( !data -> isOk () || data -> getLength () < 1 )
 	{
 		log += "Error loading separate shader\n";
-		
+
 		return false;
 	}
 
 		// now create an array of zero-terminated strings
-		
+
     const char * body  = (const char *) data -> getPtr ( 0 );
     GLint		 len   = data -> getLength ();
 	char       * buf   = (char *) malloc ( len + 1 );
-	
+
 	memcpy ( buf, body, len );
 	buf [len] = '\0';
-	
+
 	program      = glCreateShaderProgramv ( type, 1, (const char **)&buf );
 	separate     = true;
 	linkRequired = false;
 	ok           = true;
-	
+
 	loadProgramLog ( program );
 
 	free ( buf );
-	
+
 	return program != 0;
 }
 
@@ -354,14 +354,14 @@ bool	Program :: loadSeparate ( GLenum type, const string& fileName )
 		log += "Cannot open \"";
 		log += fileName;
 		log += "\"\n";
-		
+
 		return false;
 	}
 
 	bool	res = loadSeparate ( type, data );
-	
+
 	delete data;
-	
+
 	return res;
 }
 
@@ -382,7 +382,7 @@ bool	Program :: relink ()
 
 	if ( GLEW_ARB_get_program_binary )
 		glProgramParameteri ( program, GL_PROGRAM_BINARY_RETRIEVABLE_HINT, GL_TRUE );
-	
+
                                 // link the program object and print out the info log
     glLinkProgram ( program );
 
@@ -395,11 +395,11 @@ bool	Program :: relink ()
 
     if ( !linked )
         return false;
-	
+
     log += "Link successfull\n";
 
 	linkRequired = false;
-	
+
     return ok = true;
 }
 
@@ -407,7 +407,7 @@ Data  * Program :: getBinary ( GLenum * binaryFormat ) const
 {
 	if ( program == 0 || !getLinkStatus () )
 		return NULL;
-		
+
 	if ( !GLEW_ARB_get_program_binary )
 		return NULL;
 
@@ -415,31 +415,31 @@ Data  * Program :: getBinary ( GLenum * binaryFormat ) const
 	void  * binary;
 
 	glGetProgramiv ( program, GL_PROGRAM_BINARY_LENGTH, &binaryLength );
-	
+
 	if ( binaryLength < 1 )
 		return NULL;
-		
+
     binary = (GLvoid * )malloc ( binaryLength );
-	
+
 	if ( binary == NULL )
 		return NULL;
-		
+
     glGetProgramBinary ( program, binaryLength, NULL, binaryFormat, binary );
-		
+
 	return new Data ( binary, binaryLength );
 }
 
 bool	Program :: saveBinary ( const char * fileName, GLenum * binaryFormat ) const
 {
 	Data * data = getBinary ( binaryFormat );
-	
+
 	if ( data == NULL )
 		return false;
-		
+
 	data -> saveToFile ( fileName );
-	
+
 	delete data;
-	
+
 	return true;
 }
 
@@ -447,13 +447,13 @@ bool	Program :: loadBinary ( Data * data, GLenum binaryFormat )
 {
 	if ( program == 0 )
 		return false;
-		
+
 	if ( !GLEW_ARB_get_program_binary )
 		return false;
 
 	if ( data == NULL || data -> getLength () < 1 )
 		return false;
-		
+
 	glProgramBinary ( program, binaryFormat, data -> getPtr (), data -> getLength () );
 
 	return getLinkStatus ();
@@ -466,9 +466,9 @@ bool	Program :: loadBinary ( const char * fileName, GLenum binaryFormat )
 
 	Data * data = new Data ( fileName );
 	bool   res  = loadBinary ( data, binaryFormat );
-	
+
 	delete data;
-	
+
 	return res;
 }
 
@@ -491,13 +491,13 @@ bool    Program :: checkGlError ()
     	return retCode;
 
 //	const char * err = getGlErrorString ();
-	
+
 	if ( err != NULL )
 	{
 		glError = err;
 		log    += glError;
 	}
-	
+
     return false;
 }
 
@@ -757,42 +757,42 @@ int		Program :: indexForUniformBlock ( const char * name ) const
 int	Program :: uniformBlockSize ( int blockIndex ) const
 {
 	int	size;
-	
+
 	glGetActiveUniformBlockiv ( program, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &size );
-	
+
 	return size;
 }
 
 int	Program :: uniformBlockBinding ( int blockIndex ) const
 {
 	int	binding;
-	
+
 	glGetActiveUniformBlockiv ( program, blockIndex, GL_UNIFORM_BLOCK_BINDING, &binding );
-	
+
 	return binding;
 }
 
 int	Program :: uniformBlockActiveUniforms ( int blockIndex ) const
 {
 	int	num;
-	
+
 	glGetActiveUniformBlockiv ( program, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &num );
-	
+
 	return num;
 }
 
 bool	Program :: getUniformBlockVar ( int blockIndex, const char * varName, int& offs, int& size )
 {
 	GLuint	varIndex;
-	
+
 	glGetUniformIndices ( program, 1, &varName, &varIndex );
-	
+
 	if ( varIndex == GL_INVALID_INDEX )
 		return false;
-		
+
 	glGetActiveUniformsiv ( program, 1, &varIndex, GL_UNIFORM_SIZE,   &size );
 	glGetActiveUniformsiv ( program, 1, &varIndex, GL_UNIFORM_OFFSET, &offs );
-	
+
 	return true;
 }
 
@@ -840,20 +840,20 @@ bool    Program :: setTexture ( int loc, int texUnit )
 bool	Program :: bindFragOut ( const char * name, int no )
 {
 	glBindFragDataLocation ( program, no, name );
-	
+
 	linkRequired = true;
-	
+
 	return true;
-}	
+}
 
 bool	Program :: bindFragOutIndexed ( const char * name, int no, int index )
 {
 	glBindFragDataLocationIndexed ( program, no, index, name );
-	
+
 	linkRequired = true;
-	
+
 	return true;
-}	
+}
 
 int     Program :: indexForAttrName ( const char * name )
 {
@@ -866,16 +866,16 @@ bool	Program :: setAttrPtr ( const char * name, int numComponents, GLsizei strid
 
 	if ( loc < 0 )
 		return false;
-		
+
 	glVertexAttribPointer ( loc, 					// index
 							numComponents, 			// number of values per vertex
 							type, 					// type (GL_FLOAT)
 							normalized ? GL_TRUE : GL_FALSE,
 							stride, 				// stride (offset to next vertex data)
 							(const GLvoid*) ptr );
-		
+
 	glEnableVertexAttribArray ( loc );
-	
+
 	return true;
 }
 
@@ -883,16 +883,16 @@ bool	Program :: setAttrPtr ( int loc, int numComponents, GLsizei stride, void * 
 {
 	if ( loc < 0 )
 		return false;
-		
+
 	glVertexAttribPointer ( loc, 					// index
 							numComponents, 			// number of values per vertex
 							type, 					// type (GL_FLOAT)
 							normalized ? GL_TRUE : GL_FALSE,
 							stride, 				// stride (offset to next vertex data)
 							(const GLvoid*) ptr );
-		
+
 	glEnableVertexAttribArray ( loc );
-	
+
 	return true;
 }
 
@@ -901,39 +901,39 @@ void	Program :: transformFeedbacksVars ( const char * names, GLenum mode )
 	char	buf      [2048];				// hope this will be enough
 	char  * varyings [128];
 	size_t	count = 0;
-	
+
 	for ( char * ptr = strtok ( strcpy ( buf, names ), " ,;" ); ptr; ptr = strtok ( NULL, " ,;" ) )
 		varyings [count++] = ptr;
 
 	glTransformFeedbackVaryings ( program, count, (const GLchar **)varyings, mode );
-	
+
 	linkRequired = true;
 }
 
 int	Program :: getGeometryInputType () const
 {
 	int	type;
-	
+
 	glGetProgramiv ( program, GL_GEOMETRY_INPUT_TYPE, &type );
-	
+
 	return type;
 }
 
 int	Program :: getGeometryOutputType () const
 {
 	int	type;
-	
+
 	glGetProgramiv ( program, GL_GEOMETRY_OUTPUT_TYPE, &type );
-	
+
 	return type;
 }
 
 int	Program :: getGeometryVerticesOut () const
 {
 	int	num;
-	
+
 	glGetProgramiv ( program, GL_GEOMETRY_VERTICES_OUT, &num );
-	
+
 	return num;
 }
 
@@ -1051,7 +1051,7 @@ int     Program :: maxFragmentUniformComponents ()
 int	Program :: maxGeometryOutputVertices ()
 {
 	int	maxVerts;
-	
+
     glGetIntegerv ( GL_MAX_GEOMETRY_OUTPUT_VERTICES, &maxVerts );
 
 	return maxVerts;
@@ -1060,180 +1060,180 @@ int	Program :: maxGeometryOutputVertices ()
 int Program :: maxTessEvalOutputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxVertexOutputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_VERTEX_OUTPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxGeometryUniformComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_GEOMETRY_UNIFORM_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxGeometryInputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_GEOMETRY_INPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxGeometryTotalOutputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxGeometryOutputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_GEOMETRY_OUTPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxTessControlUniformComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxCombinedTessControlUnfiromComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxTessControlInputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_CONTROL_INPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxTessControlOutputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxTessPatchComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_PATCH_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxTessControlTotalOutputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxTessGenLevel ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_GEN_LEVEL, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxTessEvalUniformComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxCombinedTessEvalUniformComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int Program :: maxTessEvalInputComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int		Program :: maxTransformFeedbackSeparateAttribs ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS, &m );
-	
+
 	return m;
 }
 
 int		Program :: maxTransformFeedbackInterleavedComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS, &m );
-	
+
 	return m;
 }
 
 int	Program :: maxUniformBufferBindings ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_UNIFORM_BUFFER_BINDINGS, &m );
-	
+
 	return m;
 }
 /*
 int	Program :: maxCombinedUniformComponents ()
 {
 	int	m;
-	
+
 	glGetIntegerv ( GL_MAX_COMBINED_UNIFORM_COMPONENTS, &m );
-	
+
 	return m;
 }
 */

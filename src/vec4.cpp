@@ -68,7 +68,7 @@ vec4&	vec4 :: clamp ( float lower, float upper )
 	else
 	if ( y > upper )
 		y = upper;
-			
+
 	if ( z < lower )
 		z = lower;
 	else

@@ -13,14 +13,14 @@
 class Sync
 {
 	GLsync	sync;
-	
+
 								// disable copying
 	Sync ( const Sync& );
 	Sync& operator = ( const Sync& );
-	
+
 public:
 	Sync  ();
-	~Sync ();	
+	~Sync ();
 
 	bool isOk () const
 	{
@@ -29,7 +29,7 @@ public:
 
 	void destroy ();
 
-	void setFence ( GLenum condition = GL_SYNC_GPU_COMMANDS_COMPLETE, 
+	void setFence ( GLenum condition = GL_SYNC_GPU_COMMANDS_COMPLETE,
 			GLbitfield flags = 0 );
 
 	GLenum clientWait ( GLuint64 timeout, GLbitfield flags = GL_SYNC_FLUSH_COMMANDS_BIT );

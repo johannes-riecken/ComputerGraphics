@@ -17,7 +17,7 @@ class	mat4;
 class	mat3
 {
 	float m [9];
-	
+
 public:
 	mat3 () {}
 	explicit mat3 ( const float * values );
@@ -27,32 +27,32 @@ public:
 	mat3 ( float m0, float m1, float m2,
 	       float m3, float m4, float m5,
 	       float m6, float m7, float m8 );
-		   
+
 	const float * data () const
 	{
 		return m;
 	}
-	
+
 	float * operator [] ( int i )				// returns pointer to i-th row
-	{ 
-		return m + i*3; 
+	{
+		return m + i*3;
 	}
-	
+
 	const float * operator [] ( int i ) const 	// returns pointer to i-th row
-	{ 
-		return m + i*3; 
+	{
+		return m + i*3;
 	}
-	
+
 	vec3	rowAt ( int index ) const
 	{
 		return vec3 ( m [index * 3], m [index * 3 + 1], m [index * 3 + 2] );
 	}
-	
+
 	vec3	colAt ( int index ) const
 	{
 		return vec3 ( m [index], m [index + 3], m [index + 6] );
 	}
-	
+
 	mat3& operator =  ( const mat3& a );
 	mat3& operator += ( const mat3& a );
 	mat3& operator -= ( const mat3& a );
@@ -62,10 +62,10 @@ public:
 
 	bool	invert       ();
 	mat3& 	transpose    ();
-	float	det          () const;	
+	float	det          () const;
 	bool	isSymmetric  () const;
 	void	mat3GetEigen ( float l [3], vec3 e [3] ) const;
-	
+
 	static	mat3	identity    ();
 	static	mat3	scale       ( const vec3& );
 	static	mat3	rotateX     ( float );
@@ -76,7 +76,7 @@ public:
 	static	mat3	mirrorX     ();
 	static	mat3	mirrorY     ();
 	static	mat3	mirrorZ     ();
-	
+
 	friend mat3 operator + ( const mat3&, const mat3& );
 	friend mat3 operator - ( const mat3&, const mat3& );
 	friend mat3 operator * ( const mat3&, const mat3& );

@@ -18,17 +18,17 @@ class	ScreenQuad
 	vec4			args;				// to pass data to program "uniform vec4 args;"
 	VertexArray		vao;
 	VertexBuffer	buf;
-	
+
 public:
 	ScreenQuad ( int theWidth, int theHeight, float theSMax, float theTMax );
-	
+
 	const vec4&	getArgs () const
 	{
 		return args;
 	}
-	
+
 	void	render ();
-	
+
 protected:
 	void	createBuffers ();
 };

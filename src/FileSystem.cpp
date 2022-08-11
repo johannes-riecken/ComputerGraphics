@@ -6,7 +6,7 @@
 #include	"Data.h"
 #include	"stringUtils.h"
 
-Folder :: Folder ( const string& theFolder ) : FileSystem (), folder ( theFolder ) 
+Folder :: Folder ( const string& theFolder ) : FileSystem (), folder ( theFolder )
 {
 
 }

@@ -1,5 +1,5 @@
 //
-// Per-pixel fog example 
+// Per-pixel fog example
 //
 // Author: Alexey V. Boreskov <steps3d@gmail.com>, <steps3d@narod.ru>
 //
@@ -57,21 +57,21 @@ public:
 		if ( !program.loadProgram ( "decal.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program.bind ();
 		program.setTexture ( "image", 0 );
 		program.unbind ();
-		
+
 		if ( !program2.loadProgram ( "fog.glsl" ) )
 		{
 			printf ( "Error loading shader: %s\n", program2.getLog ().c_str () );
-			
+
 			exit ( 1 );
 		}
-		
+
 		program2.bind            ();
 		program2.setUniformVector( "fogColor", fogColor );
 		program2.setTexture      ( "depthMap",  0 );
@@ -80,10 +80,10 @@ public:
 		camera.setRightHanded ( false );
 
 		buildBoxes ( 200 );
-		
+
 		printf ( "Use:\n\t+ and - keys to change fog density\n\t* and / to change plane heights\n." );
 	}
-	
+
 	void redisplay ()
 	{
 													// render for FP FBO
@@ -91,15 +91,15 @@ public:
 
 		mat4 proj = camera.getProjection ();
 		mat4 mv   = camera.getModelview ();
-		
+
 		program.bind ();
 		decalMap.bind ();
 
 		program.setUniformMatrix ( "proj", proj );
 		program.setUniformMatrix ( "mv",   mv   );
-		
+
 		displayBoxes ();
-		
+
 		decalMap.unbind ();
 		program.unbind ();
 
@@ -108,15 +108,15 @@ public:
 
 		glEnable    ( GL_BLEND );
 		glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-		
+
 		program2.bind ();
 		program2.setUniformMatrix ( "proj", proj );
 		program2.setUniformMatrix ( "mv",   mv   );
 		program2.setUniformFloat  ( "fogDensity", fogDensity );
 		plane -> render ();
-		
+
 		program2.unbind ();
-		
+
 		depthMap.unbind ();
 
 		glDisable ( GL_BLEND );
@@ -125,22 +125,22 @@ public:
 	void reshape ( int w, int h )
 	{
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		camera.setViewSize ( w, h, 60 );
 	}
 
     void mouseWheel ( int wheel, int dir, int x, int y )
 	{
 		eye += 0.5 * vec3 ( dir, dir, dir );
-		
+
 					// since eye value has changed
 		reshape ( getWidth(), getHeight() );
-		
+
 		glutPostRedisplay ();
 	}
-	
+
     void	keyTyped ( unsigned char key, int modifiers, int x, int y )
 	{
 		if ( key == 27 || key == 'q' || key == 'Q' )        // quit requested
@@ -225,7 +225,7 @@ private:
 		vec3  sz  ( 1, 1, 1 );
 		float w1 = 10;
 		float w2 = 10;
-		
+
 		boxes.push_back ( createBox ( org, vec3 ( 10, 3, 10 ) ) );
 
 		for ( int i = 0; i < numBoxes; i++ )
@@ -234,7 +234,7 @@ private:
 			vec3  r   ( vec3 :: getRandomVector () );
 			float a   ( randUniform ( 0, 180.0 ) );
 			mat4  m = mat4::translate ( pos ) * mat4::rotate ( r, a );
-			
+
 			boxes.push_back ( createBox ( vec3 :: zero, sz*randUniform ( 0.5, 1.0 ), &m ) );
 		}
 	}
@@ -245,15 +245,15 @@ private:
 			(*it) -> render ();
 	}
 };
-	
+
 
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }

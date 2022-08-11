@@ -13,74 +13,74 @@ BasicMesh :: BasicMesh ( BasicVertex * vertices, const int * indices, int nv, in
 	numVertices  = nv;
 	numTriangles = nt;
 	name         = "";
-	
+
 	if ( vertices [0].n.lengthSq () < 0.001 )
 		computeNormals  ( vertices, indices, nv, nt );
-		
+
 	vao.create ();
 	vao.bind   ();
 	vertBuf.create    ();
 	vertBuf.bind    ( GL_ARRAY_BUFFER );
 	vertBuf.setData ( numVertices * sizeof ( BasicVertex ), vertices, GL_STATIC_DRAW );
-	
+
 							// register all components for locations
 							// 0 -> position
-	glVertexAttribPointer ( 0, 	
+	glVertexAttribPointer ( 0,
 							3, 			// number of values per vertex
 							GL_FLOAT,
 							GL_FALSE,	// normalized
 							sizeof(BasicVertex), 			// stride (offset to next vertex data)
 							(const GLvoid*) NULL );
-		
+
 							// 1 -> texture coordinates
-	glVertexAttribPointer ( 1, 	
+	glVertexAttribPointer ( 1,
 							2, 			// number of values per vertex
 							GL_FLOAT,
 							GL_FALSE,	// normalized
 							sizeof(BasicVertex), 			// stride (offset to next vertex data)
 							(const GLvoid*) sizeof ( vec3 ) );
-		
+
 							// 2 -> normal
-	glVertexAttribPointer ( 2, 	
+	glVertexAttribPointer ( 2,
 							3, 			// number of values per vertex
 							GL_FLOAT,
 							GL_FALSE,	// normalized
 							sizeof(BasicVertex), 			// stride (offset to next vertex data)
 							(const GLvoid*)(sizeof (vec3) + sizeof ( vec2 )) );
-		
+
 							// 3 -> tangent
-	glVertexAttribPointer ( 3, 	
+	glVertexAttribPointer ( 3,
 							3, 			// number of values per vertex
 							GL_FLOAT,
 							GL_FALSE,	// normalized
 							sizeof(BasicVertex), 			// stride (offset to next vertex data)
 							(const GLvoid*) (2*sizeof(vec3)+sizeof (vec2)) );
-		
+
 							// 4 -> binormal
-	glVertexAttribPointer ( 4, 	
+	glVertexAttribPointer ( 4,
 							3, 			// number of values per vertex
 							GL_FLOAT,
 							GL_FALSE,	// normalized
 							sizeof(BasicVertex), 	// stride (offset to next vertex data)
 							(const GLvoid*) (3*sizeof(vec3)+sizeof (vec2)) );
-		
+
 	glEnableVertexAttribArray ( 0 );
 	glEnableVertexAttribArray ( 1 );
 	glEnableVertexAttribArray ( 2 );
 	glEnableVertexAttribArray ( 3 );
 	glEnableVertexAttribArray ( 4 );
-	
+
 	indBuf.create  ();
 	indBuf.bind    ( GL_ELEMENT_ARRAY_BUFFER );
 	indBuf.setData ( 3 * numTriangles * sizeof ( int ), indices, GL_STATIC_DRAW );
-	
+
 	vao.unbind ();
 }
-	
+
 void	BasicMesh :: render ()
 {
 	vao.bind ();
-	
+
 	glDrawElements ( GL_TRIANGLES, 3*numTriangles, GL_UNSIGNED_INT, NULL );
 
 	vao.unbind ();
@@ -89,7 +89,7 @@ void	BasicMesh :: render ()
 void	BasicMesh :: renderInstanced ( int primCount )
 {
 	vao.bind ();
-	
+
 	glDrawElementsInstanced ( GL_TRIANGLES, 3*numTriangles, GL_UNSIGNED_INT, NULL, primCount );
 
 	vao.unbind ();
@@ -104,7 +104,7 @@ void	computeNormals  ( BasicVertex * vertices, const int * indices, int nv, int 
 		vec3 v1 = vertices [indices[index+1]].pos;
 		vec3 v2 = vertices [indices[index+2]].pos;
 		vec3 n  = cross ( v1 - v0, v2 - v0 );
-		
+
 		vertices [indices[index+0]].n += n;
 		vertices [indices[index+1]].n += n;
 		vertices [indices[index+2]].n += n;
@@ -176,7 +176,7 @@ BasicMesh * createSphere ( const vec3& org, float r, int n1, int n2 )
 	float	      deltaPhi = d1 *  M_PI;
 	float	      deltaPsi = d2 * 2.0 * M_PI;
 	int		      index    = 0;
-	
+
 	for ( int i = 0; i < n1; i++ )
 	{
 		float phi    = i * deltaPhi;
@@ -186,7 +186,7 @@ BasicMesh * createSphere ( const vec3& org, float r, int n1, int n2 )
 		for ( int j = 0; j < n2; j++ )
 		{
 			float psi = j * deltaPsi;
-			
+
 			vertices [index].n   = vec3 ( sinPhi * cos ( psi ), sinPhi * sin ( psi ), cosPhi );
 			vertices [index].pos = org + r * vertices [index].n;
 			vertices [index].tex = vec2 ( i * d1, j * d2 );
@@ -195,7 +195,7 @@ BasicMesh * createSphere ( const vec3& org, float r, int n1, int n2 )
 			index++;
 		}
 	}
-	
+
 	index = 0;
 
 	for ( int i = 0; i < n1; i++ )
@@ -212,13 +212,13 @@ BasicMesh * createSphere ( const vec3& org, float r, int n1, int n2 )
 			faces [index++] = i1*n2 + j1;
 			faces [index++] = i*n2 + j1;
 		}
-		
+
 	BasicMesh * mesh = new BasicMesh ( vertices, faces, numVertices, numTris );
-	
+
 	delete vertices;
 	delete faces;
-	
-	return mesh;		
+
+	return mesh;
 }
 
 BasicMesh * createQuad  ( const vec3& org, const vec3& dir1, const vec3& dir2 )
@@ -228,7 +228,7 @@ BasicMesh * createQuad  ( const vec3& org, const vec3& dir1, const vec3& dir2 )
 	vec3		n = normalize( cross ( dir1, dir2 ) );
 	vec3		t = normalize( dir1 );
 	vec3	 	b = normalize( dir2 );
-	
+
 	vertices [0].pos = org;
 	vertices [0].tex = vec2 ( 0, 0 );
 	vertices [0].n   = n;
@@ -240,19 +240,19 @@ BasicMesh * createQuad  ( const vec3& org, const vec3& dir1, const vec3& dir2 )
 	vertices [1].n   = n;
 	vertices [1].t   = t;
 	vertices [1].b   = b;
-	
+
 	vertices [2].pos = org + dir1 + dir2;
 	vertices [2].tex = vec2 ( 1, 1 );
 	vertices [2].n   = n;
 	vertices [2].t   = t;
 	vertices [2].b   = b;
-	
+
 	vertices [3].pos = org + dir1;
 	vertices [3].tex = vec2 ( 1, 0 );
 	vertices [3].n   = n;
 	vertices [3].t   = t;
 	vertices [3].b   = b;
-	
+
 	return new BasicMesh ( vertices, indices, 4, 6 );
 }
 
@@ -267,7 +267,7 @@ BasicMesh * createBox ( const vec3& pos, const vec3& size, const mat4 * mat, boo
 	int			c = 0;
 	BasicVertex	vertices [4*6];
 	int			indices  [6*4*6];
-		
+
                                     // front face
 	vertices [0].pos = vec3 ( pos.x, pos.y, z2 );
 	vertices [0].tex = vec2 ( 0, 0 );
@@ -431,18 +431,18 @@ BasicMesh * createBox ( const vec3& pos, const vec3& size, const mat4 * mat, boo
 	if ( mat != NULL )
 	{
 		mat3 nm = normalMatrix ( *mat );
-		
+
 		for ( int i = 0; i < numVertices; i++ )
 		{
 			vec4 v = (*mat) * vec4 ( vertices [i].pos, 1 );
-			
+
 			vertices [i].pos = vec3 ( v.x, v.y, v.z );
 			vertices [i].n   = nm * vertices [i].n;
 			vertices [i].t   = nm * vertices [i].t;
 			vertices [i].b   = nm * vertices [i].b;
 		}
 	}
-	
+
 	return new BasicMesh ( vertices, indices, numVertices, numTris );
 }
 
@@ -457,7 +457,7 @@ BasicMesh * createTorus ( float r1, float r2, int rings, int sides )
 
 	int	numVertices = (sides+1)*(rings+1);
 	int	numTris     = sides * rings * 2;
-	
+
 	BasicVertex * vertices = new BasicVertex [(sides+1)*(rings+1)];
 	int         * faces    = new int [sides*rings*6];
 
@@ -484,7 +484,7 @@ BasicMesh * createTorus ( float r1, float r2, int rings, int sides )
       		vertices [index].pos = vec3 ( cosTheta * dist, -sinTheta * dist, r1 * sinPhi );
 			vertices [index].tex = vec2 ( j * invSides, i * invRings );
 			vertices [index].n   = vec3 ( cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi );
-			
+
       // normalize the partial derivative of (x,y,z) with respect to theta.
       // T = normalize([dx/dtheta,dy/dtheta,dz/dtheta])
 
@@ -514,12 +514,12 @@ BasicMesh * createTorus ( float r1, float r2, int rings, int sides )
 			faces [index++] = i1*(sides+1) + j1;
 			faces [index++] = i*(sides+1) + j1;
 		}
-	
+
 	BasicMesh * mesh = new BasicMesh ( vertices, faces, numVertices, numTris );
-	
+
 	delete vertices;
 	delete faces;
-	
+
 	return mesh;
 }
 
@@ -539,7 +539,7 @@ static inline	vec3	knot ( float u, float v, vec3& n, vec3& t, vec3& b )
 
 	n = sin (v) * b + cos (v) * n;
 	b = cross ( n, t );
-	
+
 	return knot1D ( u ) + 0.6 * n;
 }
 
@@ -585,11 +585,11 @@ BasicMesh * createKnot  ( float r1, float r2, int rings, int sides )
 			faces [index++] = i1 * (sides+1) + j1;
 			faces [index++] = i  * (sides+1) + j1;
 		}
-		
+
 	BasicMesh * mesh = new BasicMesh ( vertices, faces, numVertices, numTris );
-	
+
 	delete vertices;
 	delete faces;
-	
+
 	return mesh;
 }

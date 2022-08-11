@@ -13,7 +13,7 @@ protected:
 	vec3	rot;
 
 public:
-	GlutRotateWindow ( int xo, int yo, int w, int h, const char * caption ) : GlutWindow ( xo, yo, w, h, caption ) 
+	GlutRotateWindow ( int xo, int yo, int w, int h, const char * caption ) : GlutWindow ( xo, yo, w, h, caption )
 	{
 		mouseOldX = 0;
 		mouseOldY = 0;
@@ -22,7 +22,7 @@ public:
 
 	mat4 getRotation () const
 	{
-		return mat4 :: rotateZ ( toRadians ( -rot.z ) ) * 
+		return mat4 :: rotateZ ( toRadians ( -rot.z ) ) *
 		    	mat4 :: rotateY ( toRadians ( rot.y ) ) *
 			mat4 :: rotateX ( toRadians ( rot.x ) );
 	}
@@ -50,7 +50,7 @@ public:
 
 		glutPostRedisplay ();
 	}
-	
+
 	virtual void	mouseClick ( int button, int state, int modifiers, int x, int y )
 	{
 		if ( state == GLUT_DOWN )

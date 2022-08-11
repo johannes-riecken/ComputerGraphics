@@ -18,8 +18,8 @@
 #define	NUM_VERTICES	3
 #define	VERTEX_SIZE		(6*sizeof(float))
 
-static const float vertices [] = 
-{       /* Coords: */  /* Color: */ 
+static const float vertices [] =
+{       /* Coords: */  /* Color: */
 	-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 	 0.0f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 	 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f
@@ -33,7 +33,7 @@ class	MyWindow : public GlutWindow
 	Program			program;
 	VertexArray		vao;
 	VertexBuffer	buf;
-	
+
 public:
 	MyWindow () : GlutWindow ( 200, 200, 400, 400, "Rotating triangle" )
 	{
@@ -44,10 +44,10 @@ public:
 		if ( !program.loadProgram ( "rotate.glsl" ) )
 		{
 			printf ( "Error building program: %s\n", program.getLog ().c_str () );
-			
+
 			exit ( 2 );
 		}
-		
+
 		program.bind ();
 		vao.create  ();
 		vao.bind    ();
@@ -67,7 +67,7 @@ public:
 		glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		mat4	mv = mat4 :: rotateZ ( toRadians ( -rot.z ) ) * mat4 :: rotateY ( toRadians ( rot.y ) ) * mat4 :: rotateX ( toRadians ( rot.x ) );
-		
+
 		program.bind ();
 		program.setUniformMatrix ( "mv", mv );
 
@@ -80,16 +80,16 @@ public:
 	void reshape ( int w, int h )
 	{
 		vec3	eye ( 3, 3, 3 );
-		
+
 		GlutWindow::reshape ( w, h );
-		
+
 		glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-	   
+
 		mat4 proj = perspective ( 60.0f, (float)w / (float)h, 0.5f, 15.0f ) * lookAt ( eye, vec3 :: zero, vec3 ( 0, 0, 1 ) );
 
 		program.bind ();
 		program.setUniformMatrix ( "proj", proj );
-		program.unbind ();  
+		program.unbind ();
 	}
 
     virtual void	mouseMotion ( int x, int y )
@@ -115,7 +115,7 @@ public:
 
 		glutPostRedisplay ();
 	}
-	
+
 	virtual void	mouseClick ( int button, int state, int modifiers, int x, int y )
 	{
 		if ( state == GLUT_DOWN )
@@ -129,10 +129,10 @@ public:
 int main ( int argc, char * argv [] )
 {
 	GlutWindow::init( argc, argv );
-	
+
 	MyWindow	win;
-	
+
 	GlutWindow::run ();
-	
+
 	return 0;
 }
