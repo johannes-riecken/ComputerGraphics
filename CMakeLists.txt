@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name
 project(ComputerGraphics)
 
-find_path(GLEW_INCLUDE_DIR GL/glew.h)
+find_path(GLEW_INCLUDE_DIR GL/glew.h HINTS /opt/homebrew/include)
 
-find_library(GLEW_LIBRARY GLEW)
-find_library(FREEGLUT3_LIBRARY glut)
-find_library(Z_LIBRARY z)
-find_library(JPEG_LIBRARY jpeg)
-find_library(PNG_LIBRARY png)
-find_library(GL_LIBRARY GL)
+find_library(GLEW_LIBRARY GLEW HINTS /opt/homebrew/lib)
+find_library(FREEGLUT3_LIBRARY glut HINTS /opt/homebrew/lib)
+find_library(Z_LIBRARY z HINTS /opt/homebrew/lib)
+find_library(JPEG_LIBRARY jpeg HINTS /opt/homebrew/lib)
+find_library(PNG_LIBRARY png HINTS /opt/homebrew/lib)
+find_library(GL_LIBRARY GL HINTS /opt/homebrew/lib)
 
 set(MATH src/vec2.cpp src/vec3.cpp src/vec4.cpp src/mat2.cpp src/mat3.cpp src/mat4.cpp src/quat.cpp src/plane.cpp src/bbox.cpp src/randUtils.cpp src/eig3x3/eig3.cpp src/kdop.cpp)
 set(TEXT src/Texture.cpp src/TexImage.cpp src/TgaEncoder.cpp src/TgaDecoder.cpp src/DdsDecoder.cpp src/BmpDecoder.cpp src/JpegDecoder.cpp src/PngDecoder.cpp src/Resources.cpp src/FileSystem.cpp src/ZipFileSystem.cpp src/TexFormat.cpp)
